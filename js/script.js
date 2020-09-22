@@ -57,7 +57,28 @@ function createLeft(z, mean, stdev, numdev, inc) {
     return dataset
 }
 
-var pValueCanvas = document.getElementById('pValueChart').getContext('2d');
+function addTails(z, tail) {
+    if (tail === 'two') {
+        right = createRight(Math.abs(z), 0, 1, 3, 0.5)
+        left = createLeft(Math.abs(z) * -1, 0, 1, 3, 0.5)
+        pValueChart.data.datasets[1].data = right
+        pValueChart.data.datasets[2].data = left
+    } else if (tail === 'right') {
+        right = createRight(z, 0, 1, 3, 0.5)
+        left = []
+        pValueChart.data.datasets[1].data = right
+        pValueChart.data.datasets[2].data = left
+    } else if (tail === 'left') {
+        right = []
+        left = createLeft(z, 0, 1, 3, 0.5)
+        pValueChart.data.datasets[1].data = right
+        pValueChart.data.datasets[2].data = left
+    }
+
+    pValueChart.update()
+}
+
+var pValueCanvas = document.getElementById('pValueChart').getContext('2d')
 var pValueChart = new Chart(pValueCanvas, {
     type: 'line',
     data: {
@@ -72,16 +93,16 @@ var pValueChart = new Chart(pValueCanvas, {
             {
                 label: 'right',
                 pointRadius: 0,
+                borderWidth: 2,
                 borderColor: '#C64C80',
                 backgroundColor: '#C64C80',
-                data: createRight(1.28, 0, 1, 3, 0.5)
             },
             {
                 label: 'left',
                 pointRadius: 0,
+                borderWidth: 2,
                 borderColor: '#C64C80',
                 backgroundColor: '#C64C80',
-                data: createLeft(-1.28, 0, 1, 3, 0.5)
             },
         ],
     },
@@ -130,4 +151,22 @@ var pValueChart = new Chart(pValueCanvas, {
             duration: 300
         },
     }
-});
+})
+
+addTails(1.28, 'right')
+
+var pValueButton = document.getElementById('pValueButton')
+pValueButton.onclick = function() {
+    z = document.getElementById('zInput').value
+    radioLeft = document.getElementById('radioLeft')
+    radioRight = document.getElementById('radioRight')
+    radioTwo = document.getElementById('radioTwo')
+
+    if (radioLeft.checked){
+        addTails(z, 'left')
+    } else if (radioRight.checked) {
+        addTails(z, 'right')
+    } else if (radioTwo.checked) {
+        addTails(z, 'two')
+    }
+}
