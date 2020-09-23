@@ -1,83 +1,3 @@
-//calcGaus: calculates the y value of a x based on the gausian fucntion
-function calcGaus(mean, stdev, x) {
-    var part1 = 1 / (stdev * Math.sqrt(2 * Math.PI))
-    var part2 = Math.exp(-1 * (Math.pow(x - mean, 2) / (2 * Math.pow(stdev, 2))))
-    return (part1 * part2)
-}
-
-//createGausDataset: creates a normal curve dataset to be added to the chart
-function createGausDataset(mean, stdev, numdev, inc) {
-    var dataset = []
-    for (i = (numdev * -1); i < (numdev + inc); i += inc) {
-        var xy = {}
-        x = i * stdev + mean
-        y = calcGaus(mean, stdev, x)
-        xy = {
-            x: x,
-            y: y
-        }
-        dataset.push(xy)
-    }
-    return dataset
-}
-
-function createRight(z, mean, stdev, numdev, inc) {
-    var dataset = []
-    for (i = numdev; i > z; i -= inc) {
-        x = i * stdev + mean
-        y = calcGaus(mean, stdev, x)
-        xy = {
-            x: x,
-            y: y
-        }
-        dataset.push(xy)
-    }
-    dataset.push({
-        x: z * stdev + mean,
-        y: calcGaus(mean, stdev, z * stdev + mean)
-    })
-    return dataset
-}
-
-function createLeft(z, mean, stdev, numdev, inc) {
-    var dataset = []
-    for (i = (numdev * -1); i < z; i += inc) {
-        x = i * stdev + mean
-        y = calcGaus(mean, stdev, x)
-        xy = {
-            x: x,
-            y: y
-        }
-        dataset.push(xy)
-    }
-    dataset.push({
-        x: z * stdev + mean,
-        y: calcGaus(mean, stdev, z * stdev + mean)
-    })
-    return dataset
-}
-
-function addTails(z, tail) {
-    if (tail === 'two') {
-        right = createRight(Math.abs(z), 0, 1, 3, 0.5)
-        left = createLeft(Math.abs(z) * -1, 0, 1, 3, 0.5)
-        pValueChart.data.datasets[1].data = right
-        pValueChart.data.datasets[2].data = left
-    } else if (tail === 'right') {
-        right = createRight(z, 0, 1, 3, 0.5)
-        left = []
-        pValueChart.data.datasets[1].data = right
-        pValueChart.data.datasets[2].data = left
-    } else if (tail === 'left') {
-        right = []
-        left = createLeft(z, 0, 1, 3, 0.5)
-        pValueChart.data.datasets[1].data = right
-        pValueChart.data.datasets[2].data = left
-    }
-
-    pValueChart.update()
-}
-
 var pValueCanvas = document.getElementById('pValueChart').getContext('2d')
 var pValueChart = new Chart(pValueCanvas, {
     type: 'line',
@@ -103,6 +23,67 @@ var pValueChart = new Chart(pValueCanvas, {
                 borderWidth: 2,
                 borderColor: '#C64C80',
                 backgroundColor: '#C64C80',
+            },
+        ],
+    },
+    options: {
+        title: {
+            text: 'Alpha, Beta and Power',
+            display: false,
+        },
+        legend: {
+            position: 'bottom',
+            labels: {
+                filter: function (item, chart) {
+                    removeList = ['Curve 1', 'right', 'left']
+                    if (removeList.includes(item.text)) {
+                        return false
+                    }
+                    return true
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMin: -6,
+                    //suggestedMax: 6,
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMax: 0.45,
+                }
+            }],
+        },
+        elements: {
+            line: {
+                borderWidth: 5.5,
+            }
+        },
+        animation: {
+            duration: 500
+        },
+    }
+})
+
+var tDistCanvas = document.getElementById('tDistChart').getContext('2d')
+var tDistChart = new Chart(tDistCanvas, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Curve 1',
+                pointRadius: 0,
+                fill: false,
+                borderColor: '#000',
+                data: createTDataset(1, 3, 0.5)
             },
         ],
     },
@@ -148,21 +129,126 @@ var pValueChart = new Chart(pValueCanvas, {
             }
         },
         animation: {
-            duration: 300
+            duration: 500
         },
     }
 })
 
-addTails(1.28, 'right')
+//createGausDataset: creates a normal curve dataset to be added to the chart
+function createGausDataset(mean, stdev, numdev, inc) {
+    var dataset = []
+    for (i = (numdev * -1); i < (numdev + inc); i += inc) {
+        var xy = {}
+        x = i * stdev + mean
+        y = jStat.normal.pdf(x, mean, stdev)
+        xy = {
+            x: x,
+            y: y
+        }
+        dataset.push(xy)
+    }
+    return dataset
+}
+
+function createRight(z, mean, stdev, numdev, inc) {
+    var dataset = []
+    for (i = numdev; i > z; i -= inc) {
+        x = i * stdev + mean
+        y = jStat.normal.pdf(x, mean, stdev)
+        xy = {
+            x: x,
+            y: y
+        }
+        dataset.push(xy)
+    }
+    dataset.push({
+        x: z * stdev + mean,
+        y: jStat.normal.pdf(z * stdev + mean, mean, stdev)
+        
+    })
+    return dataset
+}
+
+function createLeft(z, mean, stdev, numdev, inc) {
+    var dataset = []
+    for (i = (numdev * -1); i < z; i += inc) {
+        x = i * stdev + mean
+        y = jStat.normal.pdf(x, mean, stdev)
+        xy = {
+            x: x,
+            y: y
+        }
+        dataset.push(xy)
+    }
+    dataset.push({
+        x: z * stdev + mean,
+        y: jStat.normal.pdf(z * stdev + mean, mean, stdev)
+    })
+    return dataset
+}
+
+function addTails(z, tail) {
+    if (tail === 'two') {
+        right = createRight(Math.abs(z), 0, 1, 3, 0.5)
+        left = createLeft(Math.abs(z) * -1, 0, 1, 3, 0.5)
+        pValueChart.data.datasets[1].data = right
+        pValueChart.data.datasets[2].data = left
+
+        displayPValue(jStat.ztest(z, 2))
+    } else if (tail === 'right') {
+        right = createRight(z, 0, 1, 3, 0.5)
+        left = []
+        pValueChart.data.datasets[1].data = right
+        pValueChart.data.datasets[2].data = left
+
+        p = jStat.ztest(z, 1)
+
+        if (z <= 0) {
+            displayPValue(1 - p)
+        } else {
+            displayPValue(p)
+        }
+    } else if (tail === 'left') {
+        right = []
+        left = createLeft(z, 0, 1, 3, 0.5)
+        pValueChart.data.datasets[1].data = right
+        pValueChart.data.datasets[2].data = left
+
+        p = jStat.ztest(z, 1)
+
+        if (z >= 0) {
+            displayPValue(1 - p)
+        } else {
+            displayPValue(p)
+        }
+    }
+
+    pValueChart.update()
+}
+
+function displayPValue(p) {
+    var pValueDisplay = document.getElementById('pValueDisplay')
+    pValueDisplay.innerHTML = p.toFixed(2)
+}
+
+function createTDataset(df, numT, inc) {
+    dataset = []
+    for (i = numT*-1; i<numT+inc; i+=inc){
+        y = jStat.studentt.pdf(i, df)
+        dataset.push({x: i, y: y})
+    }
+
+    return dataset
+}
 
 var pValueButton = document.getElementById('pValueButton')
-pValueButton.onclick = function() {
+pValueButton.onclick = function () {
     z = document.getElementById('zInput').value
     radioLeft = document.getElementById('radioLeft')
     radioRight = document.getElementById('radioRight')
     radioTwo = document.getElementById('radioTwo')
 
-    if (radioLeft.checked){
+    if (radioLeft.checked) {
         addTails(z, 'left')
     } else if (radioRight.checked) {
         addTails(z, 'right')

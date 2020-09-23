@@ -8,9 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 
     <!--bootstrap-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
     <title>Stats Distributions</title>
 </head>
 
@@ -25,9 +28,17 @@
     </div>
 
     <div class="container">
+        <div class="row text-center">
+            <div class="col">
+                <h4>P-Value: <span id="pValueDisplay"></span></h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="form-row align-items-center">
             <div class="col">
-                <input type="text" class="form-control" type="text" placeholder="Here" id="zInput">
+                <input type="text" class="form-control" type="text" placeholder="Z-Score" id="zInput">
             </div>
             <div class="col">
                 <div class="form-check form-check-inline">
@@ -45,6 +56,15 @@
             </div>
             <div class="col">
                 <button type="button" class="btn btn-primary" id="pValueButton">Calculate</button>
+            </div>
+        </div>
+    </div>
+
+    <!--T chart-->
+    <div class="container">
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='tDistChart'></canvas>
             </div>
         </div>
     </div>
