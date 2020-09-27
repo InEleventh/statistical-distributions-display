@@ -8,68 +8,115 @@
     <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 
     <!--bootstrap-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
     <title>Stats Distributions</title>
 </head>
 
 <body>
-    <!--p-value chart-->
-    <div class="container">
+    <!--normal chart-->
+    <div class="container my-3">
         <div class="row text-center">
             <div class="col">
-                <canvas id='pValueChart'></canvas>
+                <canvas id='normDistChart'></canvas>
             </div>
         </div>
-    </div>
-
-    <div class="container">
         <div class="row text-center">
             <div class="col">
-                <h4>P-Value: <span id="pValueDisplay"></span></h4>
+                <input type="range" class="custom-range" id="normSDRange" min="1" max="2" step="0.1" value="1">
+                <p>Standard Deviation: <span id="normSDDisplay"></span></p>
             </div>
-        </div>
-    </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="normAlphaRange" min="0.01" max="0.1" step="0.01"
+                    value="0.1">
+                <p>Alpha: <span id="normAlphaDisplay"></span></p>
 
-    <div class="container">
-        <div class="form-row align-items-center">
-            <div class="col">
-                <input type="text" class="form-control" type="text" placeholder="Z-Score" id="zInput">
-            </div>
-            <div class="col">
                 <div class="form-check form-check-inline">
-                    <input name="tailGroup" type="radio" class="form-check-input" id="radioLeft" value="left" checked>
-                    <label for="left" class="form-check-label">Left Tail</label>
+                    <input name="normTailGroup" type="radio" class="form-check-input" id="normOneTail" value="right"
+                        checked>
+                    <label for="tOneTail" class="form-check-label">One Side</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input name="tailGroup" type="radio" class="form-check-input" id="radioRight" value="right">
-                    <label for="right" class="form-check-label">Right Tail</label>
+                    <input name="normTailGroup" type="radio" class="form-check-input" id="normTwoTail" value="one">
+                    <label for="tTwoTail" class="form-check-label">Two Sided</label>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input name="tailGroup" type="radio" class="form-check-input" id="radioTwo" value="two">
-                    <label for="two" class="form-check-label">Two Tail</label>
-                </div>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-primary" id="pValueButton">Calculate</button>
             </div>
         </div>
     </div>
 
     <!--T chart-->
-    <div class="container">
+    <div class="container my-3">
         <div class="row text-center">
             <div class="col">
                 <canvas id='tDistChart'></canvas>
             </div>
         </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="tDFRange" min="1" max="100" value="50">
+                <p>Degrees of Freedom: <span id="tDFDisplay"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="tAlphaRange" min="0.01" max="0.1" step="0.01" value="0.1">
+                <p>Alpha: <span id="tAlphaDisplay"></span></p>
+
+                <div class="form-check form-check-inline">
+                    <input name="tTailGroup" type="radio" class="form-check-input" id="tOneTail" value="right" checked>
+                    <label for="tOneTail" class="form-check-label">One Side</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input name="tTailGroup" type="radio" class="form-check-input" id="tTwoTail" value="one">
+                    <label for="tTwoTail" class="form-check-label">Two Sided</label>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!--import script for chart and sliders-->
+    <!--F chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='fDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="fDF1Range" min="1" max="30" value="15">
+                <p>Degrees of Freedom 1: <span id="fDF1Display"></span></p>
+                <input type="range" class="custom-range" id="fDF2Range" min="1" max="30" value="15">
+                <p>Degrees of Freedom 2: <span id="fDF2Display"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="fAlphaRange" min="0.01" max="0.1" step="0.01" value="0.1">
+                <p>Alpha: <span id="fAlphaDisplay"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!--chi chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='chiDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="chiDFRange" min="1" max="30" value="15">
+                <p>Degrees of Freedom: <span id="chiDFDisplay"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="chiAlphaRange" min="0.01" max="0.1" step="0.01" value="0.1">
+                <p>Alpha: <span id="chiAlphaDisplay"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!--import script for charts and functions-->
     <script src="js/script.js"></script>
 </body>
 
