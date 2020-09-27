@@ -346,8 +346,8 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
 }
 
 function updateNormChart(stdev, alpha, numTails) {
-    var newCurve = createGausDataset(0, stdev, 3, 0.5)
-    var newTails = createNormalTails(alpha, numTails, 0, stdev, 3, 0.5)
+    var newCurve = createGausDataset(0, stdev, 4, 0.5)
+    var newTails = createNormalTails(alpha, numTails, 0, stdev, 4, 0.5)
 
     normDistChart.data.datasets[0].data = newCurve
     normDistChart.data.datasets[1].data = newTails[0]
@@ -459,8 +459,8 @@ function createFTail(alpha, df1, df2, endPoint, inc) {
 }
 
 function updateFChart(df1, df2, alpha) {
-    var newF = createFDataset(df1, df2, 5, 0.5)
-    var newTail = createFTail(alpha, df1, df2, 5, 0.5)
+    var newF = createFDataset(df1, df2, 5, 0.1)
+    var newTail = createFTail(alpha, df1, df2, 5, 0.1)
 
     fDistChart.data.datasets[0].data = newF
     fDistChart.data.datasets[1].data = newTail
@@ -506,8 +506,8 @@ function createChiTail(alpha, df, endPoint, inc) {
 }
 
 function updateChiChart(df, alpha) {
-    var newChi = createChiDataset(df, 60, 0.5)
-    var newTail = createChiTail(alpha, df, 60, 0.5)
+    var newChi = createChiDataset(df, 60, 0.1)
+    var newTail = createChiTail(alpha, df, 60, 0.1)
 
     chiDistChart.data.datasets[0].data = newChi
     chiDistChart.data.datasets[1].data = newTail
