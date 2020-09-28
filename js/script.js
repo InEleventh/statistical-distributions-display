@@ -203,7 +203,7 @@ var fDistChart = new Chart(fDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMax: 0.45,
+                    max: 1.2,
                 }
             }],
         },
@@ -271,7 +271,7 @@ var chiDistChart = new Chart(chiDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMax: 0.45,
+                    suggestedMax: 0.1,
                 }
             }],
         },
