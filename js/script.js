@@ -51,8 +51,8 @@ var normDistChart = new Chart(normDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMin: -6,
-                    //suggestedMax: 6,
+                    min: -6,
+                    max: 6,
                 }
             }],
             yAxes: [{
@@ -332,14 +332,14 @@ var gammaDistChart = new Chart(gammaDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //max: 60,
+                    max: 60,
                 }
             }],
             yAxes: [{
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMax: 0.1,
+                    suggestedMax: 0.15,
                 }
             }],
         },
@@ -400,14 +400,14 @@ var betaDistChart = new Chart(betaDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //max: 60,
+                    max: 1,
                 }
             }],
             yAxes: [{
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMax: 0.1,
+                    suggestedMax: 4,
                 }
             }],
         },
@@ -468,14 +468,14 @@ var lognormDistChart = new Chart(lognormDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //max: 60,
+                    max: 60,
                 }
             }],
             yAxes: [{
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMax: 0.1,
+                    suggestedMax: 0.1,
                 }
             }],
         },
@@ -536,7 +536,7 @@ var binomialDistChart = new Chart(binomialDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //max: 60,
+                    max: 40,
                 }
             }],
             yAxes: [{
@@ -622,8 +622,8 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
 
 //updateNormChart: changes the curve and or tails of the normal curve
 function updateNormChart(stdev, alpha, numTails) {
-    var newCurve = createGausDataset(0, stdev, 4, 0.5)
-    var newTails = createNormalTails(alpha, numTails, 0, stdev, 4, 0.1)
+    var newCurve = createGausDataset(0, stdev, 6, 0.5)
+    var newTails = createNormalTails(alpha, numTails, 0, stdev, 6, 0.1)
 
     normDistChart.data.datasets[0].data = newCurve
     normDistChart.data.datasets[1].data = newTails[0]
@@ -835,8 +835,8 @@ function createGammaTail(alpha, shape, scale, endPoint, inc) {
 }
 
 function updateGammaChart(shape, scale, alpha) {
-    var newG = createGammaDataset(shape, scale, 20, 0.1)
-    var newTail = createGammaTail(alpha, shape, scale, 20, 0.1)
+    var newG = createGammaDataset(shape, scale, 100, 0.1)
+    var newTail = createGammaTail(alpha, shape, scale, 100, 0.1)
 
     gammaDistChart.data.datasets[0].data = newG
     gammaDistChart.data.datasets[1].data = newTail
@@ -929,8 +929,8 @@ function createLognormTail(alpha, mu, sigma, endPoint, inc) {
 }
 
 function updateLognormChart(mu, sigma, alpha) {
-    var newLN = createLognormDataset(mu, sigma, 30, 0.1)
-    var newTail = createLognormTail(alpha, mu, sigma, 30, 0.1)
+    var newLN = createLognormDataset(mu, sigma, 80, 0.1)
+    var newTail = createLognormTail(alpha, mu, sigma, 80, 0.1)
 
     lognormDistChart.data.datasets[0].data = newLN
     lognormDistChart.data.datasets[1].data = newTail
@@ -962,7 +962,7 @@ function createBinomialDataset(n, p, endPoint, inc) {
 }
 
 function updateBinomialChart(n, p) {
-    var newBi = createBinomialDataset(n, p, 40, 0.5)
+    var newBi = createBinomialDataset(n, p, 100, 0.5)
 
     binomialDistChart.data.datasets[0].data = newBi
     binomialDistChart.update()

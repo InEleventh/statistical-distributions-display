@@ -37,7 +37,7 @@
             </div>
             <div class="col">
                 <input type="range" class="custom-range" id="normAlphaRange" min="0.01" max="0.1" step="0.01"
-                    value="0.1">
+                    value="0.05">
                 <p>Alpha: <span id="normAlphaDisplay"></span></p>
 
                 <div class="form-check form-check-inline">
@@ -71,7 +71,7 @@
                 <p>Degrees of Freedom: <span id="tDFDisplay"></span></p>
             </div>
             <div class="col">
-                <input type="range" class="custom-range" id="tAlphaRange" min="0.01" max="0.1" step="0.01" value="0.1">
+                <input type="range" class="custom-range" id="tAlphaRange" min="0.01" max="0.1" step="0.01" value="0.05">
                 <p>Alpha: <span id="tAlphaDisplay"></span></p>
 
                 <div class="form-check form-check-inline">
@@ -101,12 +101,12 @@
         <div class="row text-center">
             <div class="col">
                 <input type="range" class="custom-range" id="fDF1Range" min="1" max="30" value="15">
-                <p>Degrees of Freedom 1: <span id="fDF1Display"></span></p>
+                <p>Degrees of Freedom Numerator : <span id="fDF1Display"></span></p>
                 <input type="range" class="custom-range" id="fDF2Range" min="1" max="30" value="15">
-                <p>Degrees of Freedom 2: <span id="fDF2Display"></span></p>
+                <p>Degrees of Freedom Denominator: <span id="fDF2Display"></span></p>
             </div>
             <div class="col">
-                <input type="range" class="custom-range" id="fAlphaRange" min="0.01" max="0.1" step="0.01" value="0.1">
+                <input type="range" class="custom-range" id="fAlphaRange" min="0.01" max="0.1" step="0.01" value="0.05">
                 <p>Alpha: <span id="fAlphaDisplay"></span></p>
             </div>
         </div>
@@ -131,7 +131,7 @@
             </div>
             <div class="col">
                 <input type="range" class="custom-range" id="chiAlphaRange" min="0.01" max="0.1" step="0.01"
-                    value="0.1">
+                    value="0.05">
                 <p>Alpha: <span id="chiAlphaDisplay"></span></p>
             </div>
         </div>
@@ -153,17 +153,17 @@
             <div class="col">
                 <input type="range" class="custom-range" id="gammaShapeRange" min="1" max="10" value="5">
                 <p>Shape: <span id="gammaShapeDisplay"></span></p>
-                <input type="range" class="custom-range" id="gammaScaleRange" min="1" max="10" value="5">
+                <input type="range" class="custom-range" id="gammaScaleRange" min="1" max="10" value="2">
                 <p>Scale: <span id="gammaScaleDisplay"></span></p>
             </div>
             <div class="col">
                 <input type="range" class="custom-range" id="gammaAlphaRange" min="0.01" max="0.1" step="0.01"
-                    value="0.1">
+                    value="0.05">
                 <p>Alpha: <span id="gammaAlphaDisplay"></span></p>
             </div>
         </div>
     </div>
-    
+
     <!--beta chart-->
     <div class="container my-3">
         <div class="row text-center">
@@ -179,13 +179,13 @@
         <div class="row text-center">
             <div class="col">
                 <input type="range" class="custom-range" id="betaShape1Range" min="1" max="10" value="5">
-                <p>Shape 1: <span id="betaShape1Display"></span></p>
+                <p>α: <span id="betaShape1Display"></span></p>
                 <input type="range" class="custom-range" id="betaShape2Range" min="1" max="10" value="5">
-                <p>Shape 2: <span id="betaShape2Display"></span></p>
+                <p>β: <span id="betaShape2Display"></span></p>
             </div>
             <div class="col">
                 <input type="range" class="custom-range" id="betaAlphaRange" min="0.01" max="0.1" step="0.01"
-                    value="0.1">
+                    value="0.05">
                 <p>Alpha: <span id="betaAlphaDisplay"></span></p>
             </div>
         </div>
@@ -205,14 +205,14 @@
         </div>
         <div class="row text-center">
             <div class="col">
-                <input type="range" class="custom-range" id="lognormMuRange" min="1" max="10" value="5">
-                <p>Mu: <span id="lognormMuDisplay"></span></p>
-                <input type="range" class="custom-range" id="lognormSigmaRange" min="1" max="10" value="5">
-                <p>Sigma: <span id="lognormSigmaDisplay"></span></p>
+                <input type="range" class="custom-range" id="lognormMuRange" min="1" max="5" step="0.5" value="2">
+                <p>μ: <span id="lognormMuDisplay"></span></p>
+                <input type="range" class="custom-range" id="lognormSigmaRange" min="1" max="5" step="0.5" value="2">
+                <p>σ: <span id="lognormSigmaDisplay"></span></p>
             </div>
             <div class="col">
                 <input type="range" class="custom-range" id="lognormAlphaRange" min="0.01" max="0.1" step="0.01"
-                    value="0.1">
+                    value="0.05">
                 <p>Alpha: <span id="lognormAlphaDisplay"></span></p>
             </div>
         </div>
@@ -235,7 +235,7 @@
                 <input type="range" class="custom-range" id="binomialNRange" min="1" max="40" value="20">
                 <p>N: <span id="binomialNDisplay"></span></p>
                 <input type="range" class="custom-range" id="binomialPRange" min="0" max="1" step="0.1" value="0">
-                <p>Sigma: <span id="binomialPDisplay"></span></p>
+                <p>P: <span id="binomialPDisplay"></span></p>
             </div>
         </div>
     </div>
