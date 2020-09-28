@@ -163,6 +163,60 @@
             </div>
         </div>
     </div>
+    
+    <!--beta chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <h4>Beta Distribution</h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='betaDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="betaShape1Range" min="1" max="10" value="5">
+                <p>Shape 1: <span id="betaShape1Display"></span></p>
+                <input type="range" class="custom-range" id="betaShape2Range" min="1" max="10" value="5">
+                <p>Shape 2: <span id="betaShape2Display"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="betaAlphaRange" min="0.01" max="0.1" step="0.01"
+                    value="0.1">
+                <p>Alpha: <span id="betaAlphaDisplay"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!--lognormal chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <h4>Lognormal Distribution</h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='lognormDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="lognormMuRange" min="1" max="10" value="5">
+                <p>Mu: <span id="lognormMuDisplay"></span></p>
+                <input type="range" class="custom-range" id="lognormSigmaRange" min="1" max="10" value="5">
+                <p>Sigma: <span id="lognormSigmaDisplay"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="lognormAlphaRange" min="0.01" max="0.1" step="0.01"
+                    value="0.1">
+                <p>Alpha: <span id="lognormAlphaDisplay"></span></p>
+            </div>
+        </div>
+    </div>
 
     <!--import script for charts and functions-->
     <script src="js/script.js"></script>

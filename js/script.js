@@ -354,6 +354,142 @@ var gammaDistChart = new Chart(gammaDistCanvas, {
     }
 })
 
+//beta distribution canvas and chart
+var betaDistCanvas = document.getElementById('betaDistChart').getContext('2d')
+var betaDistChart = new Chart(betaDistCanvas, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Curve 1',
+                pointRadius: 0,
+                fill: false,
+                borderColor: '#4d4a4a',
+                data: createGammaDataset(9, 0.5, 10, 0.1)
+            },
+            {
+                label: 'tail',
+                pointRadius: 0,
+                borderWidth: 5,
+                borderColor: '#C64C80',
+                backgroundColor: '#C64C80',
+            },
+        ],
+    },
+    options: {
+        title: {
+            text: 'Alpha, Beta and Power',
+            display: false,
+        },
+        legend: {
+            position: 'bottom',
+            labels: {
+                filter: function (item, chart) {
+                    removeList = ['Curve 1', 'tail']
+                    if (removeList.includes(item.text)) {
+                        return false
+                    }
+                    return true
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                display: true,
+                ticks: {
+                    display: true,
+                    //max: 60,
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMax: 0.1,
+                }
+            }],
+        },
+        elements: {
+            line: {
+                borderWidth: 5.5,
+            }
+        },
+        animation: {
+            duration: 200
+        },
+    }
+})
+
+//log-normal distribution canvas and chart
+var lognormDistCanvas = document.getElementById('lognormDistChart').getContext('2d')
+var lognormDistChart = new Chart(lognormDistCanvas, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Curve 1',
+                pointRadius: 0,
+                fill: false,
+                borderColor: '#4d4a4a',
+                data: createLognormDataset(1, 1, 30, 0.1)
+            },
+            {
+                label: 'tail',
+                pointRadius: 0,
+                borderWidth: 5,
+                borderColor: '#C64C80',
+                backgroundColor: '#C64C80',
+            },
+        ],
+    },
+    options: {
+        title: {
+            text: 'Alpha, Beta and Power',
+            display: false,
+        },
+        legend: {
+            position: 'bottom',
+            labels: {
+                filter: function (item, chart) {
+                    removeList = ['Curve 1', 'tail']
+                    if (removeList.includes(item.text)) {
+                        return false
+                    }
+                    return true
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                display: true,
+                ticks: {
+                    display: true,
+                    //max: 60,
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMax: 0.1,
+                }
+            }],
+        },
+        elements: {
+            line: {
+                borderWidth: 5.5,
+            }
+        },
+        animation: {
+            duration: 200
+        },
+    }
+})
+
 //functions for normal
 //createGausDataset: creates a normal curve dataset
 function createGausDataset(mean, stdev, numdev, inc) {
@@ -631,8 +767,8 @@ function createGammaTail(alpha, shape, scale, endPoint, inc) {
 }
 
 function updateGammaChart(shape, scale, alpha) {
-    var newG = createGammaDataset(shape, scale, 10, 0.1)
-    var newTail = createGammaTail(alpha, shape, scale, 10, 0.1)
+    var newG = createGammaDataset(shape, scale, 20, 0.1)
+    var newTail = createGammaTail(alpha, shape, scale, 20, 0.1)
 
     gammaDistChart.data.datasets[0].data = newG
     gammaDistChart.data.datasets[1].data = newTail
@@ -649,6 +785,100 @@ function changeGammaSettings() {
     document.getElementById('gammaShapeDisplay').innerHTML = shape
     document.getElementById('gammaScaleDisplay').innerHTML = scale
     document.getElementById('gammaAlphaDisplay').innerHTML = alpha
+}
+
+//functions for beta
+function createBetaDataset(shape1, shape2, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i = i + inc) {
+        var y = jStat.beta.pdf(i, shape1, shape2)
+        dataset.push({ x: i, y: y })
+    } 
+
+    return dataset
+}
+
+function createBetaTail(alpha, shape1, shape2, endPoint, inc) {
+    var tail = []
+    var x = jStat.beta.inv(1 - alpha, shape1, shape2)
+
+    for (var i = endPoint; i > x; i -= inc) {
+        var y = jStat.beta.pdf(i, shape1, shape2)
+        tail.push({ x: i, y: y })
+    }
+
+    tail.push({ x: x, y: jStat.beta.pdf(x, shape1, shape2) })
+
+    return tail
+}
+
+function updateBetaChart(shape1, shape2, alpha) {
+    var newB = createBetaDataset(shape1, shape2, 3, 0.1)
+    var newTail = createBetaTail(alpha, shape1, shape2, 3, 0.1)
+
+    betaDistChart.data.datasets[0].data = newB
+    betaDistChart.data.datasets[1].data = newTail
+    betaDistChart.update()
+}
+
+function changeBetaSettings() {
+    var shape1 = parseFloat(document.getElementById('betaShape1Range').value)
+    var shape2 = parseFloat(document.getElementById('betaShape2Range').value)
+    var alpha = parseFloat(document.getElementById('betaAlphaRange').value)
+
+    updateBetaChart(shape1, shape2, alpha)
+
+    document.getElementById('betaShape1Display').innerHTML = shape1
+    document.getElementById('betaShape2Display').innerHTML = shape2
+    document.getElementById('betaAlphaDisplay').innerHTML = alpha
+}
+
+//functions for log-normal
+function createLognormDataset(mu, sigma, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i = i + inc) {
+        var y = jStat.lognormal.pdf(i, mu, sigma)
+        dataset.push({ x: i, y: y })
+    }
+
+    return dataset
+}
+
+function createLognormTail(alpha, mu, sigma, endPoint, inc) {
+    var tail = []
+    var x = jStat.lognormal.inv(1 - alpha, mu, sigma)
+
+    for (var i = endPoint; i > x; i -= inc) {
+        var y = jStat.lognormal.pdf(i, mu, sigma)
+        tail.push({ x: i, y: y })
+    }
+
+    tail.push({ x: x, y: jStat.lognormal.pdf(x, mu, sigma) })
+
+    return tail
+}
+
+function updateLognormChart(mu, sigma, alpha) {
+    var newLN = createLognormDataset(mu, sigma, 30, 0.1)
+    var newTail = createLognormTail(alpha, mu, sigma, 30, 0.1)
+
+    lognormDistChart.data.datasets[0].data = newLN
+    lognormDistChart.data.datasets[1].data = newTail
+    lognormDistChart.update()
+}
+
+function changeLognormSettings() {
+    var mu = parseFloat(document.getElementById('lognormMuRange').value)
+    var sigma = parseFloat(document.getElementById('lognormSigmaRange').value)
+    var alpha = parseFloat(document.getElementById('lognormAlphaRange').value)
+
+    updateLognormChart(mu, sigma, alpha)
+
+    document.getElementById('lognormMuDisplay').innerHTML = mu
+    document.getElementById('lognormSigmaDisplay').innerHTML = sigma
+    document.getElementById('lognormAlphaDisplay').innerHTML = alpha
 }
 
 //normal options controls
@@ -677,9 +907,21 @@ document.getElementById('gammaShapeRange').oninput = changeGammaSettings
 document.getElementById('gammaScaleRange').oninput = changeGammaSettings
 document.getElementById('gammaAlphaRange').oninput = changeGammaSettings
 
+//beta options controls
+document.getElementById('betaShape1Range').oninput = changeBetaSettings
+document.getElementById('betaShape2Range').oninput = changeBetaSettings
+document.getElementById('betaAlphaRange').oninput = changeBetaSettings
+
+//log-normal options controls
+document.getElementById('lognormMuRange').oninput = changeLognormSettings
+document.getElementById('lognormSigmaRange').oninput = changeLognormSettings
+document.getElementById('lognormAlphaRange').oninput = changeLognormSettings
+
 //initial setup 
 changeNormSettings()
 changeTSettings()
 changeFSettings()
 changeChiSettings()
 changeGammaSettings()
+changeBetaSettings()
+changeLognormSettings()
