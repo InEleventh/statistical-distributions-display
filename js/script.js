@@ -1,3 +1,4 @@
+//normal distribution canvas and chart
 var normDistCanvas = document.getElementById('normDistChart').getContext('2d')
 var normDistChart = new Chart(normDistCanvas, {
     type: 'line',
@@ -68,11 +69,12 @@ var normDistChart = new Chart(normDistCanvas, {
             }
         },
         animation: {
-            duration: 500
+            duration: 200
         },
     }
 })
 
+//t distribution canvas and chart
 var tDistCanvas = document.getElementById('tDistChart').getContext('2d')
 var tDistChart = new Chart(tDistCanvas, {
     type: 'line',
@@ -82,7 +84,7 @@ var tDistChart = new Chart(tDistCanvas, {
                 label: 'Curve 1',
                 pointRadius: 0,
                 fill: false,
-                borderColor: '#000',
+                borderColor: '#4d4a4a',
                 data: createTDataset(1, 4, 0.5)
             },
             {
@@ -110,7 +112,7 @@ var tDistChart = new Chart(tDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = []
+                    removeList = ['Curve 1', 'left', 'right']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -133,7 +135,7 @@ var tDistChart = new Chart(tDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //suggestedMax: 0.45,
+                    max: 0.45,
                 }
             }],
         },
@@ -143,11 +145,12 @@ var tDistChart = new Chart(tDistCanvas, {
             }
         },
         animation: {
-            duration: 500
+            duration: 200
         },
     }
 })
 
+//f distribution canvas and chart
 var fDistCanvas = document.getElementById('fDistChart').getContext('2d')
 var fDistChart = new Chart(fDistCanvas, {
     type: 'line',
@@ -157,7 +160,7 @@ var fDistChart = new Chart(fDistCanvas, {
                 label: 'Curve 1',
                 pointRadius: 0,
                 fill: false,
-                borderColor: '#000',
+                borderColor: '#4d4a4a',
                 data: createFDataset(5, 10, 5, 0.5)
             },
             {
@@ -178,7 +181,7 @@ var fDistChart = new Chart(fDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = []
+                    removeList = ['Curve 1', 'tail']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -193,8 +196,7 @@ var fDistChart = new Chart(fDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //min: -4,
-                    //max: 4,
+                    max: 6,
                 }
             }],
             yAxes: [{
@@ -211,11 +213,12 @@ var fDistChart = new Chart(fDistCanvas, {
             }
         },
         animation: {
-            duration: 500
+            duration: 200
         },
     }
 })
 
+//chi-square distribution canvas and chart
 var chiDistCanvas = document.getElementById('chiDistChart').getContext('2d')
 var chiDistChart = new Chart(chiDistCanvas, {
     type: 'line',
@@ -225,7 +228,7 @@ var chiDistChart = new Chart(chiDistCanvas, {
                 label: 'Curve 1',
                 pointRadius: 0,
                 fill: false,
-                borderColor: '#000',
+                borderColor: '#4d4a4a',
                 data: createChiDataset(15, 60, 0.5)
             },
             {
@@ -246,7 +249,7 @@ var chiDistChart = new Chart(chiDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = []
+                    removeList = ['Curve 1', 'tail']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -261,8 +264,7 @@ var chiDistChart = new Chart(chiDistCanvas, {
                 display: true,
                 ticks: {
                     display: true,
-                    //min: -4,
-                    //max: 4,
+                    max: 60,
                 }
             }],
             yAxes: [{
@@ -279,7 +281,7 @@ var chiDistChart = new Chart(chiDistCanvas, {
             }
         },
         animation: {
-            duration: 500
+            duration: 200
         },
     }
 })
@@ -301,6 +303,7 @@ function createGausDataset(mean, stdev, numdev, inc) {
     return dataset
 }
 
+//createNormalTails: creates left and/or right tails for the normal curve
 function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
     var left = []
     var right = []
@@ -345,9 +348,10 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
     return [left, right]
 }
 
+//updateNormChart: changes the curve and or tails of the normal curve
 function updateNormChart(stdev, alpha, numTails) {
     var newCurve = createGausDataset(0, stdev, 4, 0.5)
-    var newTails = createNormalTails(alpha, numTails, 0, stdev, 4, 0.5)
+    var newTails = createNormalTails(alpha, numTails, 0, stdev, 4, 0.1)
 
     normDistChart.data.datasets[0].data = newCurve
     normDistChart.data.datasets[1].data = newTails[0]
@@ -355,6 +359,7 @@ function updateNormChart(stdev, alpha, numTails) {
     normDistChart.update()
 }
 
+//changeNormSettings: retives settings changes from normal sliders and radios
 function changeNormSettings() {
     var sd = parseFloat(document.getElementById('normSDRange').value)
     var alpha = parseFloat(document.getElementById('normAlphaRange').value)
@@ -370,7 +375,7 @@ function changeNormSettings() {
 }
 
 //functions for t
-//createTDataset creates a t curve
+//createTDataset creates a t curve dataset
 function createTDataset(df, numT, inc) {
     var dataset = []
 
@@ -382,6 +387,7 @@ function createTDataset(df, numT, inc) {
     return dataset
 }
 
+//createTTails: creates left and/or right tails for the t curve
 function createTTails(alpha, numTails, df, numT, inc) {
     var dataset1 = []
     var dataset2 = []
@@ -408,9 +414,10 @@ function createTTails(alpha, numTails, df, numT, inc) {
     return [dataset1, dataset2]
 }
 
+//updateNormChart: changes the curve and or tails of the t curve
 function updateTChart(df, alpha, numTails) {
     var newTCurve = createTDataset(df, 4, 0.5)
-    var newTails = createTTails(alpha, numTails, df, 4, 0.5)
+    var newTails = createTTails(alpha, numTails, df, 4, 0.1)
 
     tDistChart.data.datasets[0].data = newTCurve
     tDistChart.data.datasets[1].data = newTails[0]
@@ -418,6 +425,7 @@ function updateTChart(df, alpha, numTails) {
     tDistChart.update()
 }
 
+//changeNormSettings: retives settings changes from normal sliders and radios
 function changeTSettings() {
     var df = parseFloat(document.getElementById('tDFRange').value) 
     var alpha = parseFloat(tAlphaRange = document.getElementById('tAlphaRange').value)
@@ -433,6 +441,7 @@ function changeTSettings() {
 }
 
 //functions for f
+//createFDataset creates a f curve dataset
 function createFDataset(df1, df2, endPoint, inc) {
     var dataset = []
 
@@ -444,6 +453,7 @@ function createFDataset(df1, df2, endPoint, inc) {
     return dataset
 }
 
+//createFTails: creates a tail for the f curve
 function createFTail(alpha, df1, df2, endPoint, inc) {
     var tail = []
     var x = jStat.centralF.inv(1 - alpha, df1, df2)
@@ -458,15 +468,17 @@ function createFTail(alpha, df1, df2, endPoint, inc) {
     return tail
 }
 
+//updateFChart: changes the curve and or tails of the t curve
 function updateFChart(df1, df2, alpha) {
-    var newF = createFDataset(df1, df2, 5, 0.1)
-    var newTail = createFTail(alpha, df1, df2, 5, 0.1)
+    var newF = createFDataset(df1, df2, 6, 0.1)
+    var newTail = createFTail(alpha, df1, df2, 6, 0.1)
 
     fDistChart.data.datasets[0].data = newF
     fDistChart.data.datasets[1].data = newTail
     fDistChart.update()
 }
 
+//changeFSettings: retives settings changes from normal sliders and radios
 function changeFSettings() {
     var df1 = parseFloat(fDF1Range.value)
     var df2 = parseFloat(fDF2Range.value)
@@ -524,36 +536,22 @@ function changeChiSettings(){
     document.getElementById('chiAlphaDisplay').innerHTML = alpha
 }
 
-
 //normal options controls
-document.getElementById('normSDDisplay').innerHTML = normSDRange.value
-normSDRange.oninput = changeNormSettings
-
-document.getElementById('normAlphaDisplay').innerHTML = normAlphaRange.value
-normAlphaRange.oninput = changeNormSettings
-
+document.getElementById('normSDRange').oninput = changeNormSettings
+document.getElementById('normAlphaRange').oninput = changeNormSettings
 document.getElementById('normOneTail').onclick = changeNormSettings
-
 document.getElementById('normTwoTail').onclick = changeNormSettings
 
 //t options controls
-document.getElementById('tDFDisplay').innerHTML = tDFRange.value
-tDFRange.oninput = changeTSettings
-
-document.getElementById('tAlphaDisplay').innerHTML = tAlphaRange.value
-tAlphaRange.oninput = changeTSettings
-
+document.getElementById('tDFRange').oninput = changeTSettings
+document.getElementById('tAlphaRange').oninput = changeTSettings
 document.getElementById('tOneTail').onclick = changeTSettings
-
 document.getElementById('tTwoTail').onclick = changeTSettings
 
 //f options controls
 document.getElementById('fDF1Range').oninput = changeFSettings
-
 document.getElementById('fDF2Range').oninput = changeFSettings
-
 document.getElementById('fAlphaRange').oninput = changeFSettings
-
 
 //chi options controls
 document.getElementById('chiDFRange').oninput = changeChiSettings
