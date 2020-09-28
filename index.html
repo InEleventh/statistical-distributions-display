@@ -218,6 +218,28 @@
         </div>
     </div>
 
+    <!--binomial chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <h4>Binomial Distribution</h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='binomialDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="binomialNRange" min="1" max="40" value="20">
+                <p>N: <span id="binomialNDisplay"></span></p>
+                <input type="range" class="custom-range" id="binomialPRange" min="0" max="1" step="0.1" value="0">
+                <p>Sigma: <span id="binomialPDisplay"></span></p>
+            </div>
+        </div>
+    </div>
+
     <!--import script for charts and functions-->
     <script src="js/script.js"></script>
 </body>

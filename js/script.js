@@ -490,6 +490,74 @@ var lognormDistChart = new Chart(lognormDistCanvas, {
     }
 })
 
+//binomial distribution canvas and chart
+var binomialDistCanvas = document.getElementById('binomialDistChart').getContext('2d')
+var binomialDistChart = new Chart(binomialDistCanvas, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Curve 1',
+                pointRadius: 0,
+                fill: false,
+                borderColor: '#4d4a4a',
+                data: createBinomialDataset(20, 0, 1, 0.1)
+            },
+            {
+                label: 'tail',
+                pointRadius: 0,
+                borderWidth: 5,
+                borderColor: '#C64C80',
+                backgroundColor: '#C64C80',
+            },
+        ],
+    },
+    options: {
+        title: {
+            text: 'Alpha, Beta and Power',
+            display: false,
+        },
+        legend: {
+            position: 'bottom',
+            labels: {
+                filter: function (item, chart) {
+                    removeList = ['Curve 1', 'tail']
+                    if (removeList.includes(item.text)) {
+                        return false
+                    }
+                    return true
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                display: true,
+                ticks: {
+                    display: true,
+                    //max: 60,
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMax: 0.1,
+                }
+            }],
+        },
+        elements: {
+            line: {
+                borderWidth: 5.5,
+            }
+        },
+        animation: {
+            duration: 200
+        },
+    }
+})
+
 //functions for normal
 //createGausDataset: creates a normal curve dataset
 function createGausDataset(mean, stdev, numdev, inc) {
@@ -881,6 +949,35 @@ function changeLognormSettings() {
     document.getElementById('lognormAlphaDisplay').innerHTML = alpha
 }
 
+//functions for binomial
+function createBinomialDataset(n, p, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i = i + inc) {
+        var y = jStat.binomial.pdf(i, n, p)
+        dataset.push({ x: i, y: y })
+    }
+
+    return dataset
+}
+
+function updateBinomialChart(n, p) {
+    var newBi = createBinomialDataset(n, p, 40, 0.5)
+
+    binomialDistChart.data.datasets[0].data = newBi
+    binomialDistChart.update()
+}
+
+function changeBinomialSettings(){
+    var n = parseFloat(document.getElementById('binomialNRange').value)
+    var p = parseFloat(document.getElementById('binomialPRange').value)
+
+    updateBinomialChart(n, p)
+    
+    document.getElementById('binomialNDisplay').innerHTML = n
+    document.getElementById('binomialPDisplay').innerHTML = p
+}
+
 //normal options controls
 document.getElementById('normSDRange').oninput = changeNormSettings
 document.getElementById('normAlphaRange').oninput = changeNormSettings
@@ -917,6 +1014,10 @@ document.getElementById('lognormMuRange').oninput = changeLognormSettings
 document.getElementById('lognormSigmaRange').oninput = changeLognormSettings
 document.getElementById('lognormAlphaRange').oninput = changeLognormSettings
 
+//binomial options controls
+document.getElementById('binomialNRange').oninput = changeBinomialSettings
+document.getElementById('binomialPRange').oninput = changeBinomialSettings
+
 //initial setup 
 changeNormSettings()
 changeTSettings()
@@ -925,3 +1026,4 @@ changeChiSettings()
 changeGammaSettings()
 changeBetaSettings()
 changeLognormSettings()
+changeBinomialSettings()
