@@ -286,6 +286,74 @@ var chiDistChart = new Chart(chiDistCanvas, {
     }
 })
 
+//gamma distribution canvas and chart
+var gammaDistCanvas = document.getElementById('gammaDistChart').getContext('2d')
+var gammaDistChart = new Chart(gammaDistCanvas, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Curve 1',
+                pointRadius: 0,
+                fill: false,
+                borderColor: '#4d4a4a',
+                data: createGammaDataset(9, 0.5, 10, 0.1)
+            },
+            {
+                label: 'tail',
+                pointRadius: 0,
+                borderWidth: 5,
+                borderColor: '#C64C80',
+                backgroundColor: '#C64C80',
+            },
+        ],
+    },
+    options: {
+        title: {
+            text: 'Alpha, Beta and Power',
+            display: false,
+        },
+        legend: {
+            position: 'bottom',
+            labels: {
+                filter: function (item, chart) {
+                    removeList = ['Curve 1', 'tail']
+                    if (removeList.includes(item.text)) {
+                        return false
+                    }
+                    return true
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                display: true,
+                ticks: {
+                    display: true,
+                    //max: 60,
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMax: 0.1,
+                }
+            }],
+        },
+        elements: {
+            line: {
+                borderWidth: 5.5,
+            }
+        },
+        animation: {
+            duration: 200
+        },
+    }
+})
+
 //functions for normal
 //createGausDataset: creates a normal curve dataset
 function createGausDataset(mean, stdev, numdev, inc) {
@@ -536,6 +604,53 @@ function changeChiSettings(){
     document.getElementById('chiAlphaDisplay').innerHTML = alpha
 }
 
+//functions for gamma
+function createGammaDataset(shape, scale, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i = i + inc) {
+        var y = jStat.gamma.pdf(i, shape, scale)
+        dataset.push({ x: i, y: y })
+    } 
+
+    return dataset
+}
+
+function createGammaTail(alpha, shape, scale, endPoint, inc) {
+    var tail = []
+    var x = jStat.gamma.inv(1 - alpha, shape, scale)
+
+    for (var i = endPoint; i > x; i -= inc) {
+        var y = jStat.gamma.pdf(i, shape, scale)
+        tail.push({ x: i, y: y })
+    }
+
+    tail.push({ x: x, y: jStat.gamma.pdf(x, shape, scale) })
+
+    return tail
+}
+
+function updateGammaChart(shape, scale, alpha) {
+    var newG = createGammaDataset(shape, scale, 10, 0.1)
+    var newTail = createGammaTail(alpha, shape, scale, 10, 0.1)
+
+    gammaDistChart.data.datasets[0].data = newG
+    gammaDistChart.data.datasets[1].data = newTail
+    gammaDistChart.update()
+}
+
+function changeGammaSettings() {
+    var shape = parseFloat(document.getElementById('gammaShapeRange').value)
+    var scale = parseFloat(document.getElementById('gammaScaleRange').value)
+    var alpha = parseFloat(document.getElementById('gammaAlphaRange').value)
+
+    updateGammaChart(shape, scale, alpha)
+
+    document.getElementById('gammaShapeDisplay').innerHTML = shape
+    document.getElementById('gammaScaleDisplay').innerHTML = scale
+    document.getElementById('gammaAlphaDisplay').innerHTML = alpha
+}
+
 //normal options controls
 document.getElementById('normSDRange').oninput = changeNormSettings
 document.getElementById('normAlphaRange').oninput = changeNormSettings
@@ -557,8 +672,14 @@ document.getElementById('fAlphaRange').oninput = changeFSettings
 document.getElementById('chiDFRange').oninput = changeChiSettings
 document.getElementById('chiAlphaRange').oninput = changeChiSettings
 
+//gamma options controls
+document.getElementById('gammaShapeRange').oninput = changeGammaSettings
+document.getElementById('gammaScaleRange').oninput = changeGammaSettings
+document.getElementById('gammaAlphaRange').oninput = changeGammaSettings
+
 //initial setup 
 changeNormSettings()
 changeTSettings()
 changeFSettings()
 changeChiSettings()
+changeGammaSettings()
