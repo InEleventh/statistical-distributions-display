@@ -36,7 +36,7 @@ var normDistChart = new Chart(normDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = ['Curve 1', 'right', 'left']
+                    var removeList = ['Curve 1', 'right', 'left']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -638,8 +638,21 @@ function changeNormSettings() {
 
     if (document.getElementById('normOneTail').checked) {
         updateNormChart(sd, alpha, 1)
+        
+        var x = jStat.normal.inv(alpha, 0, sd).toFixed(2)
+        
+        document.getElementById('normXDisplay').innerHTML = 'X: ' + x.toString()
+        document.getElementById('normXLeftDisplay').innerHTML = ''
+        document.getElementById('normXRightDisplay').innerHTML = ''
     } else if (document.getElementById('normTwoTail').checked) {
         updateNormChart(sd, alpha, 2)
+
+        var xLeft = jStat.normal.inv(alpha/2, 0, sd).toFixed(2)
+        var xRight = jStat.normal.inv(1-alpha/2, 0, sd).toFixed(2)
+
+        document.getElementById('normXLeftDisplay').innerHTML = 'X-Left: ' + xLeft.toString()
+        document.getElementById('normXRightDisplay').innerHTML ='X-Right: ' + xRight.toString()
+        document.getElementById('normXDisplay').innerHTML = ''
     }
 
     document.getElementById('normSDDisplay').innerHTML = sd
@@ -697,15 +710,28 @@ function updateTChart(df, alpha, numTails) {
     tDistChart.update()
 }
 
-//changeNormSettings: retives settings changes from normal sliders and radios
+//changeNormSettings: retives settings changes from t sliders and radios
 function changeTSettings() {
     var df = parseFloat(document.getElementById('tDFRange').value) 
     var alpha = parseFloat(tAlphaRange = document.getElementById('tAlphaRange').value)
 
     if (document.getElementById('tOneTail').checked) {
         updateTChart(df, alpha, 1)
+
+        var x = jStat.studentt.inv(alpha, df).toFixed(2)
+        
+        document.getElementById('tXDisplay').innerHTML = 'X: ' + x.toString()
+        document.getElementById('tXLeftDisplay').innerHTML = ''
+        document.getElementById('tXRightDisplay').innerHTML = ''
     } else if (document.getElementById('tTwoTail').checked) {
         updateTChart(df, alpha, 2)
+
+        var xLeft = jStat.studentt.inv(alpha/2, df).toFixed(2)
+        var xRight = jStat.studentt.inv(1-alpha/2, df).toFixed(2)
+
+        document.getElementById('tXLeftDisplay').innerHTML = 'X-Left: ' + xLeft.toString()
+        document.getElementById('tXRightDisplay').innerHTML ='X-Right: ' + xRight.toString()
+        document.getElementById('tXDisplay').innerHTML = ''
     }
 
     document.getElementById('tDFDisplay').innerHTML = df
@@ -740,7 +766,7 @@ function createFTail(alpha, df1, df2, endPoint, inc) {
     return tail
 }
 
-//updateFChart: changes the curve and or tails of the t curve
+//updateFChart: changes the curve and/or tails of the t curve
 function updateFChart(df1, df2, alpha) {
     var newF = createFDataset(df1, df2, 6, 0.1)
     var newTail = createFTail(alpha, df1, df2, 6, 0.1)
@@ -750,20 +776,23 @@ function updateFChart(df1, df2, alpha) {
     fDistChart.update()
 }
 
-//changeFSettings: retives settings changes from normal sliders and radios
+//changeFSettings: retives settings changes from f sliders
 function changeFSettings() {
     var df1 = parseFloat(fDF1Range.value)
     var df2 = parseFloat(fDF2Range.value)
     var alpha = parseFloat(fAlphaRange.value)
+    var x = jStat.centralF.inv(1 - alpha, df1, df2).toFixed(2)
 
     updateFChart(df1, df2, alpha)
-
+    
     document.getElementById('fDF1Display').innerHTML = df1
     document.getElementById('fDF2Display').innerHTML = df2
     document.getElementById('fAlphaDisplay').innerHTML = alpha
+    document.getElementById('fXDisplay').innerHTML = 'X: ' + x.toString()
 }
 
 //functions for chi-square
+//createChiDataset creates a chi-square curve dataset
 function createChiDataset(df, endPoint, inc) {
     var dataset = []
 
@@ -775,6 +804,7 @@ function createChiDataset(df, endPoint, inc) {
     return dataset
 }
 
+//createChiTail: creates a tail for the chi-square curve
 function createChiTail(alpha, df, endPoint, inc) {
     var tail = []
     var x = jStat.chisquare.inv(1 - alpha, df)
@@ -789,6 +819,7 @@ function createChiTail(alpha, df, endPoint, inc) {
     return tail
 }
 
+//updateChiChart: changes the curve and/or tails of the chi-square curve
 function updateChiChart(df, alpha) {
     var newChi = createChiDataset(df, 60, 0.1)
     var newTail = createChiTail(alpha, df, 60, 0.1)
@@ -798,17 +829,21 @@ function updateChiChart(df, alpha) {
     chiDistChart.update()
 }
 
+//changeChiSettings: retives settings changes from chi-square sliders
 function changeChiSettings(){
     var df = parseFloat(document.getElementById('chiDFRange').value)
     var alpha = parseFloat(document.getElementById('chiAlphaRange').value)
+    var x = jStat.chisquare.inv(1 - alpha, df).toFixed(2)
 
     updateChiChart(df, alpha)
 
     document.getElementById('chiDFDisplay').innerHTML = df
     document.getElementById('chiAlphaDisplay').innerHTML = alpha
+    document.getElementById('chiXDisplay').innerHTML = 'X: ' + x.toString()
 }
 
 //functions for gamma
+//createGammaDataset creates gamma curve dataset
 function createGammaDataset(shape, scale, endPoint, inc) {
     var dataset = []
 
@@ -820,6 +855,7 @@ function createGammaDataset(shape, scale, endPoint, inc) {
     return dataset
 }
 
+//createGammaTail: creates a tail for the gamma curve
 function createGammaTail(alpha, shape, scale, endPoint, inc) {
     var tail = []
     var x = jStat.gamma.inv(1 - alpha, shape, scale)
@@ -834,6 +870,7 @@ function createGammaTail(alpha, shape, scale, endPoint, inc) {
     return tail
 }
 
+//updateGammaChart: changes the curve and/or tails of the gamma curve
 function updateGammaChart(shape, scale, alpha) {
     var newG = createGammaDataset(shape, scale, 100, 0.1)
     var newTail = createGammaTail(alpha, shape, scale, 100, 0.1)
@@ -843,19 +880,23 @@ function updateGammaChart(shape, scale, alpha) {
     gammaDistChart.update()
 }
 
+//changeGammaSettings: retives settings changes from gamma sliders
 function changeGammaSettings() {
     var shape = parseFloat(document.getElementById('gammaShapeRange').value)
     var scale = parseFloat(document.getElementById('gammaScaleRange').value)
     var alpha = parseFloat(document.getElementById('gammaAlphaRange').value)
+    var x = jStat.gamma.inv(1 - alpha, shape, scale).toFixed(2)
 
     updateGammaChart(shape, scale, alpha)
 
     document.getElementById('gammaShapeDisplay').innerHTML = shape
     document.getElementById('gammaScaleDisplay').innerHTML = scale
     document.getElementById('gammaAlphaDisplay').innerHTML = alpha
+    document.getElementById('gammaXDisplay').innerHTML = 'X: ' + x.toString()
 }
 
 //functions for beta
+//createBetaDataset creates beta curve dataset
 function createBetaDataset(shape1, shape2, endPoint, inc) {
     var dataset = []
 
@@ -867,6 +908,7 @@ function createBetaDataset(shape1, shape2, endPoint, inc) {
     return dataset
 }
 
+//createBetaTail: creates a tail for the beta curve
 function createBetaTail(alpha, shape1, shape2, endPoint, inc) {
     var tail = []
     var x = jStat.beta.inv(1 - alpha, shape1, shape2)
@@ -881,6 +923,7 @@ function createBetaTail(alpha, shape1, shape2, endPoint, inc) {
     return tail
 }
 
+//updateBetaChart: changes the curve and/or tails of the beta curve
 function updateBetaChart(shape1, shape2, alpha) {
     var newB = createBetaDataset(shape1, shape2, 3, 0.1)
     var newTail = createBetaTail(alpha, shape1, shape2, 3, 0.1)
@@ -890,19 +933,23 @@ function updateBetaChart(shape1, shape2, alpha) {
     betaDistChart.update()
 }
 
+//changeBetaSettings: retives settings changes from beta sliders
 function changeBetaSettings() {
     var shape1 = parseFloat(document.getElementById('betaShape1Range').value)
     var shape2 = parseFloat(document.getElementById('betaShape2Range').value)
     var alpha = parseFloat(document.getElementById('betaAlphaRange').value)
+    var x = jStat.beta.inv(1 - alpha, shape1, shape2).toFixed(2)
 
     updateBetaChart(shape1, shape2, alpha)
 
     document.getElementById('betaShape1Display').innerHTML = shape1
     document.getElementById('betaShape2Display').innerHTML = shape2
     document.getElementById('betaAlphaDisplay').innerHTML = alpha
+    document.getElementById('betaXDisplay').innerHTML = 'X: ' + x.toString()
 }
 
 //functions for log-normal
+//createLognormDataset creates log-normal curve dataset
 function createLognormDataset(mu, sigma, endPoint, inc) {
     var dataset = []
 
@@ -914,6 +961,7 @@ function createLognormDataset(mu, sigma, endPoint, inc) {
     return dataset
 }
 
+//createLognormTail: creates a tail for the log-normal curve
 function createLognormTail(alpha, mu, sigma, endPoint, inc) {
     var tail = []
     var x = jStat.lognormal.inv(1 - alpha, mu, sigma)
@@ -928,6 +976,7 @@ function createLognormTail(alpha, mu, sigma, endPoint, inc) {
     return tail
 }
 
+//updateLognormChart: changes the curve and/or tails of the log-normal curve
 function updateLognormChart(mu, sigma, alpha) {
     var newLN = createLognormDataset(mu, sigma, 80, 0.1)
     var newTail = createLognormTail(alpha, mu, sigma, 80, 0.1)
@@ -937,19 +986,23 @@ function updateLognormChart(mu, sigma, alpha) {
     lognormDistChart.update()
 }
 
+//changeLognormSettings: retives settings changes from log-normal sliders
 function changeLognormSettings() {
     var mu = parseFloat(document.getElementById('lognormMuRange').value)
     var sigma = parseFloat(document.getElementById('lognormSigmaRange').value)
     var alpha = parseFloat(document.getElementById('lognormAlphaRange').value)
+    var x = jStat.lognormal.inv(1 - alpha, mu, sigma).toFixed(2)
 
     updateLognormChart(mu, sigma, alpha)
 
     document.getElementById('lognormMuDisplay').innerHTML = mu
     document.getElementById('lognormSigmaDisplay').innerHTML = sigma
     document.getElementById('lognormAlphaDisplay').innerHTML = alpha
+    document.getElementById('lognormXDisplay').innerHTML = 'X: ' + x.toString()
 }
 
 //functions for binomial
+//createLognormDataset creates binomial curve dataset
 function createBinomialDataset(n, p, endPoint, inc) {
     var dataset = []
 
@@ -961,6 +1014,7 @@ function createBinomialDataset(n, p, endPoint, inc) {
     return dataset
 }
 
+//updateLognormChart: changes the curve and/or tails of the binomial curve
 function updateBinomialChart(n, p) {
     var newBi = createBinomialDataset(n, p, 100, 0.5)
 
@@ -968,6 +1022,7 @@ function updateBinomialChart(n, p) {
     binomialDistChart.update()
 }
 
+//changeLognormSettings: retives settings changes from binomial sliders
 function changeBinomialSettings(){
     var n = parseFloat(document.getElementById('binomialNRange').value)
     var p = parseFloat(document.getElementById('binomialPRange').value)
