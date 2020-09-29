@@ -112,7 +112,7 @@ var tDistChart = new Chart(tDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = ['Curve 1', 'left', 'right']
+                    var removeList = ['Curve 1', 'left', 'right']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -181,7 +181,7 @@ var fDistChart = new Chart(fDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = ['Curve 1', 'tail']
+                    var removeList = ['Curve 1', 'tail']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -249,7 +249,7 @@ var chiDistChart = new Chart(chiDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = ['Curve 1', 'tail']
+                    var removeList = ['Curve 1', 'tail']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -317,7 +317,7 @@ var gammaDistChart = new Chart(gammaDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = ['Curve 1', 'tail']
+                    var removeList = ['Curve 1', 'tail']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -490,6 +490,74 @@ var lognormDistChart = new Chart(lognormDistCanvas, {
     }
 })
 
+//exponential distribution canvas and chart
+var expoDistCanvas = document.getElementById('expoDistChart').getContext('2d')
+var expoDistChart = new Chart(expoDistCanvas, {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: 'Curve 1',
+                pointRadius: 0,
+                fill: false,
+                borderColor: '#4d4a4a',
+                data: createExpoDataset(1, 10, 0.1)
+            },
+            {
+                label: 'tail',
+                pointRadius: 0,
+                borderWidth: 5,
+                borderColor: '#C64C80',
+                backgroundColor: '#C64C80',
+            },
+        ],
+    },
+    options: {
+        title: {
+            text: 'Alpha, Beta and Power',
+            display: false,
+        },
+        legend: {
+            position: 'bottom',
+            labels: {
+                filter: function (item, chart) {
+                    var removeList = ['Curve 1', 'tail']
+                    if (removeList.includes(item.text)) {
+                        return false
+                    }
+                    return true
+                }
+            }
+        },
+        scales: {
+            xAxes: [{
+                type: 'linear',
+                position: 'bottom',
+                display: true,
+                ticks: {
+                    display: true,
+                    max: 4,
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    display: true,
+                    //suggestedMax: 5,
+                }
+            }],
+        },
+        elements: {
+            line: {
+                borderWidth: 5.5,
+            }
+        },
+        animation: {
+            duration: 200
+        },
+    }
+})
+
 //binomial distribution canvas and chart
 var binomialDistCanvas = document.getElementById('binomialDistChart').getContext('2d')
 var binomialDistChart = new Chart(binomialDistCanvas, {
@@ -521,7 +589,7 @@ var binomialDistChart = new Chart(binomialDistCanvas, {
             position: 'bottom',
             labels: {
                 filter: function (item, chart) {
-                    removeList = ['Curve 1', 'tail']
+                    var removeList = ['Curve 1', 'tail']
                     if (removeList.includes(item.text)) {
                         return false
                     }
@@ -1001,6 +1069,57 @@ function changeLognormSettings() {
     document.getElementById('lognormXDisplay').innerHTML = 'X: ' + x.toString()
 }
 
+//functions for exponential 
+//createExpoDataset: creates a exponential curve dataset
+function createExpoDataset(lambda, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i += inc) {
+        var y = jStat.exponential.pdf(i, lambda)
+        dataset.push({ x: i, y: y })
+    }
+
+    return dataset
+}
+
+//createExpoTail: creates a tail for the exponential curve
+function createExpoTail(alpha, lambda, endPoint, inc) {
+    var tail = []
+    var x = jStat.exponential.inv(1 - alpha, lambda)
+
+    for (var i = endPoint; i > x; i -= inc) {
+        var y = jStat.exponential.pdf(i, lambda)
+        tail.push({ x: i, y: y })
+    }
+
+    tail.push({ x: x, y: jStat.exponential.pdf(x, lambda) })
+
+    return tail
+}
+
+//updateExpoChart: changes the curve and/or tails of the exponential curve
+function updateExpoChart(lambda, alpha) {
+    var newExpo = createExpoDataset(lambda, 10, 0.1)
+    var newTail = createExpoTail(alpha, lambda, 10, 0.1)
+
+    expoDistChart.data.datasets[0].data = newExpo
+    expoDistChart.data.datasets[1].data = newTail
+    expoDistChart.update()
+}
+
+//changeChiSettings: retives settings changes from chi-square sliders
+function changeExpoSettings(){
+    var lambda = parseFloat(document.getElementById('expoLambdaRange').value)
+    var alpha = parseFloat(document.getElementById('expoAlphaRange').value)
+    var x = jStat.exponential.inv(1 - alpha, lambda).toFixed(2)
+
+    updateExpoChart(lambda, alpha)
+
+    document.getElementById('expoLambdaDisplay').innerHTML = lambda
+    document.getElementById('expoAlphaDisplay').innerHTML = alpha
+    document.getElementById('expoXDisplay').innerHTML = 'X: ' + x.toString()
+}
+
 //functions for binomial
 //createLognormDataset creates binomial curve dataset
 function createBinomialDataset(n, p, endPoint, inc) {
@@ -1069,6 +1188,10 @@ document.getElementById('lognormMuRange').oninput = changeLognormSettings
 document.getElementById('lognormSigmaRange').oninput = changeLognormSettings
 document.getElementById('lognormAlphaRange').oninput = changeLognormSettings
 
+//exponential options controls
+document.getElementById('expoLambdaRange').oninput = changeExpoSettings
+document.getElementById('expoAlphaRange').oninput = changeExpoSettings
+
 //binomial options controls
 document.getElementById('binomialNRange').oninput = changeBinomialSettings
 document.getElementById('binomialPRange').oninput = changeBinomialSettings
@@ -1082,3 +1205,4 @@ changeGammaSettings()
 changeBetaSettings()
 changeLognormSettings()
 changeBinomialSettings()
+changeExpoSettings()

@@ -265,6 +265,36 @@
         </div>
     </div>
 
+    <!--expo chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <h4>Exponential Distribution</h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='expoDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h5 id="expoXDisplay"></h5>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="expoLambdaRange" min="1" max="5" step="0.5" value="2">
+                <p>λ: <span id="expoLambdaDisplay"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="expoAlphaRange" min="0.01" max="0.1" step="0.01"
+                    value="0.05">
+                <p>Alpha: <span id="expoAlphaDisplay"></span></p>
+            </div>
+        </div>
+    </div>
+
     <!--binomial chart-->
     <div class="container my-3">
         <div class="row text-center">
