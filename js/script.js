@@ -1,632 +1,82 @@
-//normal distribution canvas and chart
-var normDistCanvas = document.getElementById('normDistChart').getContext('2d')
-var normDistChart = new Chart(normDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createGausDataset(0, 1, 3, 0.5)
-            },
-            {
-                label: 'left',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-            {
-                label: 'right',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'right', 'left']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    min: -6,
-                    max: 6,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 0.45,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//t distribution canvas and chart
-var tDistCanvas = document.getElementById('tDistChart').getContext('2d')
-var tDistChart = new Chart(tDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createTDataset(1, 4, 0.5)
-            },
-            {
-                label: 'left',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-            {
-                label: 'right',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'left', 'right']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    min: -4,
-                    max: 4,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 0.45,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//f distribution canvas and chart
-var fDistCanvas = document.getElementById('fDistChart').getContext('2d')
-var fDistChart = new Chart(fDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createFDataset(5, 10, 5, 0.5)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 6,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 1.2,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//chi-square distribution canvas and chart
-var chiDistCanvas = document.getElementById('chiDistChart').getContext('2d')
-var chiDistChart = new Chart(chiDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createChiDataset(15, 60, 0.5)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 60,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    suggestedMax: 0.1,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//gamma distribution canvas and chart
-var gammaDistCanvas = document.getElementById('gammaDistChart').getContext('2d')
-var gammaDistChart = new Chart(gammaDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createGammaDataset(9, 0.5, 10, 0.1)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 60,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    suggestedMax: 0.15,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//beta distribution canvas and chart
-var betaDistCanvas = document.getElementById('betaDistChart').getContext('2d')
-var betaDistChart = new Chart(betaDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createGammaDataset(9, 0.5, 10, 0.1)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 1,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    suggestedMax: 4,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//log-normal distribution canvas and chart
-var lognormDistCanvas = document.getElementById('lognormDistChart').getContext('2d')
-var lognormDistChart = new Chart(lognormDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createLognormDataset(1, 1, 30, 0.1)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 60,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    suggestedMax: 0.1,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//exponential distribution canvas and chart
-var expoDistCanvas = document.getElementById('expoDistChart').getContext('2d')
-var expoDistChart = new Chart(expoDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createExpoDataset(1, 10, 0.1)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 4,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    //suggestedMax: 5,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
-//binomial distribution canvas and chart
-var binomialDistCanvas = document.getElementById('binomialDistChart').getContext('2d')
-var binomialDistChart = new Chart(binomialDistCanvas, {
-    type: 'line',
-    data: {
-        datasets: [
-            {
-                label: 'Curve 1',
-                pointRadius: 0,
-                fill: false,
-                borderColor: '#4d4a4a',
-                data: createBinomialDataset(20, 0, 1, 0.1)
-            },
-            {
-                label: 'tail',
-                pointRadius: 0,
-                borderWidth: 5,
-                borderColor: '#C64C80',
-                backgroundColor: '#C64C80',
-            },
-        ],
-    },
-    options: {
-        title: {
-            text: 'Alpha, Beta and Power',
-            display: false,
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                filter: function (item, chart) {
-                    var removeList = ['Curve 1', 'tail']
-                    if (removeList.includes(item.text)) {
-                        return false
-                    }
-                    return true
-                }
-            }
-        },
-        scales: {
-            xAxes: [{
-                type: 'linear',
-                position: 'bottom',
-                display: true,
-                ticks: {
-                    display: true,
-                    max: 40,
-                }
-            }],
-            yAxes: [{
-                display: true,
-                ticks: {
-                    display: true,
-                    //suggestedMax: 0.1,
-                }
-            }],
-        },
-        elements: {
-            line: {
-                borderWidth: 5.5,
-            }
-        },
-        animation: {
-            duration: 200
-        },
-    }
-})
-
 //functions for normal
+//createNormalChart: creates a normal distribution chart in a specified canvas
+function createNormChart(canvas) {
+    normDistCanvas = document.getElementById(canvas).getContext('2d')
+    normDistChart = new Chart(normDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createGausDataset(0, 1, 3, 0.5)
+                },
+                {
+                    label: 'left',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+                {
+                    label: 'right',
+                    pointRadius: 0,
+                    borderWidth: 5,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'right', 'left']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        min: -6,
+                        max: 6,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 0.45,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createGausDataset: creates a normal curve dataset
 function createGausDataset(mean, stdev, numdev, inc) {
     var dataset = []
@@ -706,20 +156,20 @@ function changeNormSettings() {
 
     if (document.getElementById('normOneTail').checked) {
         updateNormChart(sd, alpha, 1)
-        
+
         var x = jStat.normal.inv(alpha, 0, sd).toFixed(2)
-        
-        document.getElementById('normXDisplay').innerHTML = 'X: ' + x.toString()
+
+        document.getElementById('normXDisplay').innerHTML = 'Critical Value: ' + x.toString()
         document.getElementById('normXLeftDisplay').innerHTML = ''
         document.getElementById('normXRightDisplay').innerHTML = ''
     } else if (document.getElementById('normTwoTail').checked) {
         updateNormChart(sd, alpha, 2)
 
-        var xLeft = jStat.normal.inv(alpha/2, 0, sd).toFixed(2)
-        var xRight = jStat.normal.inv(1-alpha/2, 0, sd).toFixed(2)
+        var xLeft = jStat.normal.inv(alpha / 2, 0, sd).toFixed(2)
+        var xRight = jStat.normal.inv(1 - alpha / 2, 0, sd).toFixed(2)
 
-        document.getElementById('normXLeftDisplay').innerHTML = 'X-Left: ' + xLeft.toString()
-        document.getElementById('normXRightDisplay').innerHTML ='X-Right: ' + xRight.toString()
+        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left Value: ' + xLeft.toString()
+        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right Value: ' + xRight.toString()
         document.getElementById('normXDisplay').innerHTML = ''
     }
 
@@ -728,6 +178,84 @@ function changeNormSettings() {
 }
 
 //functions for t
+//createTChart: creates a t distribution chart in a specified canvas
+function createTChart(canvas) {
+    tDistCanvas = document.getElementById(canvas).getContext('2d')
+    tDistChart = new Chart(tDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createTDataset(1, 4, 0.5)
+                },
+                {
+                    label: 'left',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+                {
+                    label: 'right',
+                    pointRadius: 0,
+                    borderWidth: 5,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'left', 'right']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        min: -4,
+                        max: 4,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 0.45,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createTDataset creates a t curve dataset
 function createTDataset(df, numT, inc) {
     var dataset = []
@@ -780,25 +308,25 @@ function updateTChart(df, alpha, numTails) {
 
 //changeNormSettings: retives settings changes from t sliders and radios
 function changeTSettings() {
-    var df = parseFloat(document.getElementById('tDFRange').value) 
+    var df = parseFloat(document.getElementById('tDFRange').value)
     var alpha = parseFloat(tAlphaRange = document.getElementById('tAlphaRange').value)
 
     if (document.getElementById('tOneTail').checked) {
         updateTChart(df, alpha, 1)
 
         var x = jStat.studentt.inv(alpha, df).toFixed(2)
-        
-        document.getElementById('tXDisplay').innerHTML = 'X: ' + x.toString()
+
+        document.getElementById('tXDisplay').innerHTML = 'Critical Value: ' + x.toString()
         document.getElementById('tXLeftDisplay').innerHTML = ''
         document.getElementById('tXRightDisplay').innerHTML = ''
     } else if (document.getElementById('tTwoTail').checked) {
         updateTChart(df, alpha, 2)
 
-        var xLeft = jStat.studentt.inv(alpha/2, df).toFixed(2)
-        var xRight = jStat.studentt.inv(1-alpha/2, df).toFixed(2)
+        var xLeft = jStat.studentt.inv(alpha / 2, df).toFixed(2)
+        var xRight = jStat.studentt.inv(1 - alpha / 2, df).toFixed(2)
 
-        document.getElementById('tXLeftDisplay').innerHTML = 'X-Left: ' + xLeft.toString()
-        document.getElementById('tXRightDisplay').innerHTML ='X-Right: ' + xRight.toString()
+        document.getElementById('tXLeftDisplay').innerHTML = 'Critical Left Value: ' + xLeft.toString()
+        document.getElementById('tXRightDisplay').innerHTML = 'Critical Right Value: ' + xRight.toString()
         document.getElementById('tXDisplay').innerHTML = ''
     }
 
@@ -807,6 +335,76 @@ function changeTSettings() {
 }
 
 //functions for f
+//createFChart: creates a f distribution chart in a specified canvas
+function createFChart(canvas) {
+    fDistCanvas = document.getElementById(canvas).getContext('2d')
+    fDistChart = new Chart(fDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createFDataset(5, 10, 5, 0.5)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 5,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 6,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 1.2,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createFDataset creates a f curve dataset
 function createFDataset(df1, df2, endPoint, inc) {
     var dataset = []
@@ -852,14 +450,84 @@ function changeFSettings() {
     var x = jStat.centralF.inv(1 - alpha, df1, df2).toFixed(2)
 
     updateFChart(df1, df2, alpha)
-    
+
     document.getElementById('fDF1Display').innerHTML = df1
     document.getElementById('fDF2Display').innerHTML = df2
     document.getElementById('fAlphaDisplay').innerHTML = alpha
-    document.getElementById('fXDisplay').innerHTML = 'X: ' + x.toString()
+    document.getElementById('fXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
 //functions for chi-square
+//createChiChart: creates a chi-square distribution chart in a specified canvas
+function createChiChart(canvas) {
+    chiDistCanvas = document.getElementById(canvas).getContext('2d')
+    chiDistChart = new Chart(chiDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createChiDataset(15, 60, 0.5)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 60,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        suggestedMax: 0.1,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createChiDataset creates a chi-square curve dataset
 function createChiDataset(df, endPoint, inc) {
     var dataset = []
@@ -898,7 +566,7 @@ function updateChiChart(df, alpha) {
 }
 
 //changeChiSettings: retives settings changes from chi-square sliders
-function changeChiSettings(){
+function changeChiSettings() {
     var df = parseFloat(document.getElementById('chiDFRange').value)
     var alpha = parseFloat(document.getElementById('chiAlphaRange').value)
     var x = jStat.chisquare.inv(1 - alpha, df).toFixed(2)
@@ -907,10 +575,80 @@ function changeChiSettings(){
 
     document.getElementById('chiDFDisplay').innerHTML = df
     document.getElementById('chiAlphaDisplay').innerHTML = alpha
-    document.getElementById('chiXDisplay').innerHTML = 'X: ' + x.toString()
+    document.getElementById('chiXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
 //functions for gamma
+//createGammaChart: creates a gamma distribution chart in a specified canvas
+function createGammaChart(canvas) {
+    gammaDistCanvas = document.getElementById(canvas).getContext('2d')
+    gammaDistChart = new Chart(gammaDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createGammaDataset(9, 0.5, 10, 0.1)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 60,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        suggestedMax: 0.15,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createGammaDataset creates gamma curve dataset
 function createGammaDataset(shape, scale, endPoint, inc) {
     var dataset = []
@@ -918,7 +656,7 @@ function createGammaDataset(shape, scale, endPoint, inc) {
     for (var i = 0; i < endPoint + inc; i = i + inc) {
         var y = jStat.gamma.pdf(i, shape, scale)
         dataset.push({ x: i, y: y })
-    } 
+    }
 
     return dataset
 }
@@ -960,10 +698,80 @@ function changeGammaSettings() {
     document.getElementById('gammaShapeDisplay').innerHTML = shape
     document.getElementById('gammaScaleDisplay').innerHTML = scale
     document.getElementById('gammaAlphaDisplay').innerHTML = alpha
-    document.getElementById('gammaXDisplay').innerHTML = 'X: ' + x.toString()
+    document.getElementById('gammaXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
 //functions for beta
+//createBetaChart: creates a beta distribution chart in a specified canvas
+function createBetaChart(canvas) {
+    betaDistCanvas = document.getElementById(canvas).getContext('2d')
+    betaDistChart = new Chart(betaDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createGammaDataset(9, 0.5, 10, 0.1)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 1,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        suggestedMax: 5,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createBetaDataset creates beta curve dataset
 function createBetaDataset(shape1, shape2, endPoint, inc) {
     var dataset = []
@@ -971,7 +779,7 @@ function createBetaDataset(shape1, shape2, endPoint, inc) {
     for (var i = 0; i < endPoint + inc; i = i + inc) {
         var y = jStat.beta.pdf(i, shape1, shape2)
         dataset.push({ x: i, y: y })
-    } 
+    }
 
     return dataset
 }
@@ -981,7 +789,7 @@ function createBetaTail(alpha, shape1, shape2, endPoint, inc) {
     var tail = []
     var x = jStat.beta.inv(1 - alpha, shape1, shape2)
 
-    for (var i = endPoint; i > x; i -= inc) {
+    for (var i = endPoint; i > x; i = i - inc) {
         var y = jStat.beta.pdf(i, shape1, shape2)
         tail.push({ x: i, y: y })
     }
@@ -993,8 +801,8 @@ function createBetaTail(alpha, shape1, shape2, endPoint, inc) {
 
 //updateBetaChart: changes the curve and/or tails of the beta curve
 function updateBetaChart(shape1, shape2, alpha) {
-    var newB = createBetaDataset(shape1, shape2, 3, 0.1)
-    var newTail = createBetaTail(alpha, shape1, shape2, 3, 0.1)
+    var newB = createBetaDataset(shape1, shape2, 3, 0.01)
+    var newTail = createBetaTail(alpha, shape1, shape2, 3, 0.01)
 
     betaDistChart.data.datasets[0].data = newB
     betaDistChart.data.datasets[1].data = newTail
@@ -1013,10 +821,80 @@ function changeBetaSettings() {
     document.getElementById('betaShape1Display').innerHTML = shape1
     document.getElementById('betaShape2Display').innerHTML = shape2
     document.getElementById('betaAlphaDisplay').innerHTML = alpha
-    document.getElementById('betaXDisplay').innerHTML = 'X: ' + x.toString()
+    document.getElementById('betaXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
 //functions for log-normal
+//createLognormChart: creates a lognormal distribution chart in a specified canvas
+function createLognormChart(canvas) {
+    lognormDistCanvas = document.getElementById(canvas).getContext('2d')
+    lognormDistChart = new Chart(lognormDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createLognormDataset(1, 1, 30, 0.1)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 70,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        suggestedMax: 0.1,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createLognormDataset creates log-normal curve dataset
 function createLognormDataset(mu, sigma, endPoint, inc) {
     var dataset = []
@@ -1066,10 +944,80 @@ function changeLognormSettings() {
     document.getElementById('lognormMuDisplay').innerHTML = mu
     document.getElementById('lognormSigmaDisplay').innerHTML = sigma
     document.getElementById('lognormAlphaDisplay').innerHTML = alpha
-    document.getElementById('lognormXDisplay').innerHTML = 'X: ' + x.toString()
+    document.getElementById('lognormXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
 //functions for exponential 
+//createExpoChart: creates a exponential distribution chart in a specified canvas
+function createExpoChart(canvas) {
+    expoDistCanvas = document.getElementById(canvas).getContext('2d')
+    expoDistChart = new Chart(expoDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createExpoDataset(1, 10, 0.1)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 4,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        //suggestedMax: 5,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
 //createExpoDataset: creates a exponential curve dataset
 function createExpoDataset(lambda, endPoint, inc) {
     var dataset = []
@@ -1108,7 +1056,7 @@ function updateExpoChart(lambda, alpha) {
 }
 
 //changeChiSettings: retives settings changes from chi-square sliders
-function changeExpoSettings(){
+function changeExpoSettings() {
     var lambda = parseFloat(document.getElementById('expoLambdaRange').value)
     var alpha = parseFloat(document.getElementById('expoAlphaRange').value)
     var x = jStat.exponential.inv(1 - alpha, lambda).toFixed(2)
@@ -1117,92 +1065,61 @@ function changeExpoSettings(){
 
     document.getElementById('expoLambdaDisplay').innerHTML = lambda
     document.getElementById('expoAlphaDisplay').innerHTML = alpha
-    document.getElementById('expoXDisplay').innerHTML = 'X: ' + x.toString()
-}
-
-//functions for binomial
-//createLognormDataset creates binomial curve dataset
-function createBinomialDataset(n, p, endPoint, inc) {
-    var dataset = []
-
-    for (var i = 0; i < endPoint + inc; i = i + inc) {
-        var y = jStat.binomial.pdf(i, n, p)
-        dataset.push({ x: i, y: y })
-    }
-
-    return dataset
-}
-
-//updateLognormChart: changes the curve and/or tails of the binomial curve
-function updateBinomialChart(n, p) {
-    var newBi = createBinomialDataset(n, p, 100, 0.5)
-
-    binomialDistChart.data.datasets[0].data = newBi
-    binomialDistChart.update()
-}
-
-//changeLognormSettings: retives settings changes from binomial sliders
-function changeBinomialSettings(){
-    var n = parseFloat(document.getElementById('binomialNRange').value)
-    var p = parseFloat(document.getElementById('binomialPRange').value)
-
-    updateBinomialChart(n, p)
-    
-    document.getElementById('binomialNDisplay').innerHTML = n
-    document.getElementById('binomialPDisplay').innerHTML = p
+    document.getElementById('expoXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
 //normal options controls
-document.getElementById('normSDRange').oninput = changeNormSettings
-document.getElementById('normAlphaRange').oninput = changeNormSettings
-document.getElementById('normOneTail').onclick = changeNormSettings
-document.getElementById('normTwoTail').onclick = changeNormSettings
+function setupNormControls() {
+    document.getElementById('normSDRange').oninput = changeNormSettings
+    document.getElementById('normAlphaRange').oninput = changeNormSettings
+    document.getElementById('normOneTail').onclick = changeNormSettings
+    document.getElementById('normTwoTail').onclick = changeNormSettings
+}
 
 //t options controls
-document.getElementById('tDFRange').oninput = changeTSettings
-document.getElementById('tAlphaRange').oninput = changeTSettings
-document.getElementById('tOneTail').onclick = changeTSettings
-document.getElementById('tTwoTail').onclick = changeTSettings
+function setupTControls() {
+    document.getElementById('tDFRange').oninput = changeTSettings
+    document.getElementById('tAlphaRange').oninput = changeTSettings
+    document.getElementById('tOneTail').onclick = changeTSettings
+    document.getElementById('tTwoTail').onclick = changeTSettings
+}
 
 //f options controls
-document.getElementById('fDF1Range').oninput = changeFSettings
-document.getElementById('fDF2Range').oninput = changeFSettings
-document.getElementById('fAlphaRange').oninput = changeFSettings
+function setupFControls() {
+    document.getElementById('fDF1Range').oninput = changeFSettings
+    document.getElementById('fDF2Range').oninput = changeFSettings
+    document.getElementById('fAlphaRange').oninput = changeFSettings
+}
 
 //chi options controls
-document.getElementById('chiDFRange').oninput = changeChiSettings
-document.getElementById('chiAlphaRange').oninput = changeChiSettings
+function setupChiControls() {
+    document.getElementById('chiDFRange').oninput = changeChiSettings
+    document.getElementById('chiAlphaRange').oninput = changeChiSettings
+}
 
 //gamma options controls
-document.getElementById('gammaShapeRange').oninput = changeGammaSettings
-document.getElementById('gammaScaleRange').oninput = changeGammaSettings
-document.getElementById('gammaAlphaRange').oninput = changeGammaSettings
+function setupGammaControls() {
+    document.getElementById('gammaShapeRange').oninput = changeGammaSettings
+    document.getElementById('gammaScaleRange').oninput = changeGammaSettings
+    document.getElementById('gammaAlphaRange').oninput = changeGammaSettings
+}
 
 //beta options controls
-document.getElementById('betaShape1Range').oninput = changeBetaSettings
-document.getElementById('betaShape2Range').oninput = changeBetaSettings
-document.getElementById('betaAlphaRange').oninput = changeBetaSettings
+function setupBetaControls() {
+    document.getElementById('betaShape1Range').oninput = changeBetaSettings
+    document.getElementById('betaShape2Range').oninput = changeBetaSettings
+    document.getElementById('betaAlphaRange').oninput = changeBetaSettings
+}
 
 //log-normal options controls
-document.getElementById('lognormMuRange').oninput = changeLognormSettings
-document.getElementById('lognormSigmaRange').oninput = changeLognormSettings
-document.getElementById('lognormAlphaRange').oninput = changeLognormSettings
+function setupLognormControls() {
+    document.getElementById('lognormMuRange').oninput = changeLognormSettings
+    document.getElementById('lognormSigmaRange').oninput = changeLognormSettings
+    document.getElementById('lognormAlphaRange').oninput = changeLognormSettings
+}
 
 //exponential options controls
-document.getElementById('expoLambdaRange').oninput = changeExpoSettings
-document.getElementById('expoAlphaRange').oninput = changeExpoSettings
-
-//binomial options controls
-document.getElementById('binomialNRange').oninput = changeBinomialSettings
-document.getElementById('binomialPRange').oninput = changeBinomialSettings
-
-//initial setup 
-changeNormSettings()
-changeTSettings()
-changeFSettings()
-changeChiSettings()
-changeGammaSettings()
-changeBetaSettings()
-changeLognormSettings()
-changeBinomialSettings()
-changeExpoSettings()
+function setupExpoControls() {
+    document.getElementById('expoLambdaRange').oninput = changeExpoSettings
+    document.getElementById('expoAlphaRange').oninput = changeExpoSettings
+}
