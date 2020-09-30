@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <!--chart.js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <!--jStat-->
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+
+    <!--bootstrap-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <title>Normal Distribution</title>
+</head>
+
+<body>
+    <!--nav bar-->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <a class="navbar-brand" href="/index.html">Stats Distributions</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="normal.html" class="nav-link">Normal</a>
+                </li>
+                <li class="nav-item">
+                    <a href="t.html" class="nav-link">T</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="f.html" class="nav-link">F</a>
+                </li>
+                <li class="nav-item">
+                    <a href="chi.html" class="nav-link">Chi-Square</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gamma.html" class="nav-link">Gamma</a>
+                </li>
+                <li class="nav-item">
+                    <a href="beta.html" class="nav-link">Beta</a>
+                </li>
+                <li class="nav-item">
+                    <a href="lognorm.html" class="nav-link">Lognormal</a>
+                </li>
+                <li class="nav-item">
+                    <a href="exponential.html" class="nav-link">Exponential</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--F chart-->
+    <div class="container my-3">
+        <div class="row text-center">
+            <div class="col">
+                <h4>F Distribution</h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <canvas id='fDistChart'></canvas>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <h5 id="fXDisplay"></h5>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                <input type="range" class="custom-range" id="fDF1Range" min="1" max="30" value="15">
+                <p>Degrees of Freedom Numerator : <span id="fDF1Display"></span></p>
+                <input type="range" class="custom-range" id="fDF2Range" min="1" max="30" value="15">
+                <p>Degrees of Freedom Denominator: <span id="fDF2Display"></span></p>
+            </div>
+            <div class="col">
+                <input type="range" class="custom-range" id="fAlphaRange" min="0.01" max="0.1" step="0.01" value="0.05">
+                <p>Alpha: <span id="fAlphaDisplay"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!--script-->
+    <script src="/js/script.js"></script>
+    <script>
+        createFChart('fDistChart')
+        changeFSettings()
+        setupFControls()
+    </script>
+</body>
+
+</html>
