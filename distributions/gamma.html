@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Normal Distribution</title>
+    <title>Gamma Distribution</title>
 </head>
 
 <body>
@@ -73,16 +73,24 @@
         </div>
         <div class="row text-center">
             <div class="col">
-                <input type="range" class="custom-range" id="gammaShapeRange" min="1" max="10" value="5">
-                <p>Shape: <span id="gammaShapeDisplay"></span></p>
-                <input type="range" class="custom-range" id="gammaScaleRange" min="1" max="10" value="2">
-                <p>Scale: <span id="gammaScaleDisplay"></span></p>
+                <input type="range" class="custom-range" id="gammaShapeRange" min="1" max="5" value="2">
+                <p>κ: <span id="gammaShapeDisplay"></span></p>
+                <input type="range" class="custom-range" id="gammaScaleRange" min="1" max="5" value="2">
+                <p>θ: <span id="gammaScaleDisplay"></span></p>
             </div>
             <div class="col">
                 <input type="range" class="custom-range" id="gammaAlphaRange" min="0.01" max="0.1" step="0.01"
                     value="0.05">
                 <p>Alpha: <span id="gammaAlphaDisplay"></span></p>
             </div>
+        </div>
+        <div class="col">
+            <dl>
+                <dt class="font-weight-bold">κ</dt>
+                <dd>κ is a shape paramerter.Shape parameters affect the shape of distribution. Shape parameters do not just shift the location or stretch a distribution.</dd>
+                <dt class="font-weight-bold">θ</dt>
+                <dd>θ is a scale parameter. Scale parameters stretch and shrink the distribution.</dd>
+            </dl>
         </div>
     </div>
 

@@ -1,0 +1,5 @@
+https://homepage.divms.uiowa.edu/~mbognar/
+
+https://www.science.co.il/internet/html/Greek-characters.php
+
+looping with a float is inaccurate if you need to make it more accurate use i.toFixed() within the loop to round to the correct amount

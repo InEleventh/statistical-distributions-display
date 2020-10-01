@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Normal Distribution</title>
+    <title>F Distribution</title>
 </head>
 
 <body>
@@ -81,6 +81,14 @@
             <div class="col">
                 <input type="range" class="custom-range" id="fAlphaRange" min="0.01" max="0.1" step="0.01" value="0.05">
                 <p>Alpha: <span id="fAlphaDisplay"></span></p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <dl>
+                    <dt class="font-weight-bold">Degrees of Freedom</dt>
+                    <dd>The Number of independent quantities left to vary after estimating the parameters. It's calculated as the number of number of data values (n) minus the number of estimated parameters. The F distribution uses two degrees of freedom. The Numerator is the number of groups (k) minus 1. The Denominator is the total number of cases (N) - k.</dd>
+                </dl>
             </div>
         </div>
     </div>

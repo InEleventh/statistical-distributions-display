@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <title>Normal Distribution</title>
+    <title>Chi-Square Distribution</title>
 </head>
 
 <body>
@@ -80,6 +80,14 @@
                 <input type="range" class="custom-range" id="chiAlphaRange" min="0.01" max="0.1" step="0.01"
                     value="0.05">
                 <p>Alpha: <span id="chiAlphaDisplay"></span></p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <dl>
+                    <dt class="font-weight-bold">Degrees of Freedom</dt>
+                    <dd>The Number of independent quantities left to vary after estimating the parameters. It's calculated as the number of number of data values (n) minus the number of estimated parameters. For Chi-Square it's the number of categories - 1.</dd>
+                </dl>
             </div>
         </div>
     </div>
