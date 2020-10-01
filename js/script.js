@@ -161,7 +161,7 @@ function changeNormSettings() {
         var x = jStat.normal.inv(alpha, mean, sd).toFixed(2)
         var z = ((x-mean)/sd).toFixed(2)
 
-        document.getElementById('normXDisplay').innerHTML = 'Critical Z Value: ' + z
+        document.getElementById('normXDisplay').innerHTML = 'Critical z Value: ' + z
         document.getElementById('normXLeftDisplay').innerHTML = ''
         document.getElementById('normXRightDisplay').innerHTML = ''
     } else if (document.getElementById('normTwoTail').checked) {
@@ -172,8 +172,8 @@ function changeNormSettings() {
         var xRight = jStat.normal.inv(1 - alpha / 2, mean, sd).toFixed(2)
         var zRight = ((xRight-mean)/sd).toFixed(2)
 
-        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left Z Value: ' + zLeft
-        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right Z Value: ' + zRight
+        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left z Value: ' + zLeft
+        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right z Value: ' + zRight
         document.getElementById('normXDisplay').innerHTML = ''
     }
 
@@ -320,7 +320,7 @@ function changeTSettings() {
 
         var x = jStat.studentt.inv(alpha, df).toFixed(2)
 
-        document.getElementById('tXDisplay').innerHTML = 'Critical Value: ' + x.toString()
+        document.getElementById('tXDisplay').innerHTML = 'Critical t Value: ' + x.toString()
         document.getElementById('tXLeftDisplay').innerHTML = ''
         document.getElementById('tXRightDisplay').innerHTML = ''
     } else if (document.getElementById('tTwoTail').checked) {
@@ -329,8 +329,8 @@ function changeTSettings() {
         var xLeft = jStat.studentt.inv(alpha / 2, df).toFixed(2)
         var xRight = jStat.studentt.inv(1 - alpha / 2, df).toFixed(2)
 
-        document.getElementById('tXLeftDisplay').innerHTML = 'Critical Left Value: ' + xLeft.toString()
-        document.getElementById('tXRightDisplay').innerHTML = 'Critical Right Value: ' + xRight.toString()
+        document.getElementById('tXLeftDisplay').innerHTML = 'Critical Left t Value: ' + xLeft.toString()
+        document.getElementById('tXRightDisplay').innerHTML = 'Critical Right t Value: ' + xRight.toString()
         document.getElementById('tXDisplay').innerHTML = ''
     }
 
@@ -458,7 +458,7 @@ function changeFSettings() {
     document.getElementById('fDF1Display').innerHTML = df1
     document.getElementById('fDF2Display').innerHTML = df2
     document.getElementById('fAlphaDisplay').innerHTML = alpha
-    document.getElementById('fXDisplay').innerHTML = 'Critical Value: ' + x.toString()
+    document.getElementById('fXDisplay').innerHTML = 'Critical f Value: ' + x.toString()
 }
 
 //functions for chi-square
@@ -579,7 +579,7 @@ function changeChiSettings() {
 
     document.getElementById('chiDFDisplay').innerHTML = df
     document.getElementById('chiAlphaDisplay').innerHTML = alpha
-    document.getElementById('chiXDisplay').innerHTML = 'Critical Value: ' + x.toString()
+    document.getElementById('chiXDisplay').innerHTML = 'Critical Χ<sup>2</sup> Value: ' + x.toString()
 }
 
 //functions for gamma
@@ -702,7 +702,7 @@ function changeGammaSettings() {
     document.getElementById('gammaShapeDisplay').innerHTML = shape
     document.getElementById('gammaScaleDisplay').innerHTML = scale
     document.getElementById('gammaAlphaDisplay').innerHTML = alpha
-    document.getElementById('gammaXDisplay').innerHTML = 'Critical Value: ' + x.toString()
+    document.getElementById('gammaXDisplay').innerHTML = 'Critical Γ Value: ' + x.toString()
 }
 
 //functions for beta
@@ -825,7 +825,7 @@ function changeBetaSettings() {
     document.getElementById('betaShape1Display').innerHTML = shape1
     document.getElementById('betaShape2Display').innerHTML = shape2
     document.getElementById('betaAlphaDisplay').innerHTML = alpha
-    document.getElementById('betaXDisplay').innerHTML = 'Critical Value: ' + x.toString()
+    document.getElementById('betaXDisplay').innerHTML = 'Critical Β Value: ' + x.toString()
 }
 
 //functions for log-normal
