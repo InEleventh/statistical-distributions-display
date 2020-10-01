@@ -82,7 +82,7 @@ function createGausDataset(mean, stdev, numdev, inc) {
     var dataset = []
     for (var i = (numdev * -1); i < (numdev + inc); i += inc) {
         var xy = {}
-        var x = i * stdev + mean
+        var x = i
         var y = jStat.normal.pdf(x, mean, stdev)
         xy = {
             x: x,
@@ -104,7 +104,7 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
     }
 
     for (var i = (numdev * -1); i < z; i += inc) {
-        var x = i * stdev + mean
+        var x = i
         var y = jStat.normal.pdf(x, mean, stdev)
         var xy = {
             x: x,
@@ -113,15 +113,15 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
         left.push(xy)
     }
     left.push({
-        x: z * stdev + mean,
-        y: jStat.normal.pdf(z * stdev + mean, mean, stdev)
+        x: z,
+        y: jStat.normal.pdf(z, mean, stdev)
     })
 
     if (numTails === 2) {
         z = z * -1
 
         for (var i = numdev; i > z; i -= inc) {
-            var x = i * stdev + mean
+            var x = i
             var y = jStat.normal.pdf(x, mean, stdev)
             var xy = {
                 x: x,
@@ -130,8 +130,8 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
             right.push(xy)
         }
         right.push({
-            x: z * stdev + mean,
-            y: jStat.normal.pdf(z * stdev + mean, mean, stdev)
+            x: z,
+            y: jStat.normal.pdf(z, mean, stdev)
         })
     }
 
@@ -139,9 +139,9 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
 }
 
 //updateNormChart: changes the curve and or tails of the normal curve
-function updateNormChart(stdev, alpha, numTails) {
-    var newCurve = createGausDataset(0, stdev, 6, 0.5)
-    var newTails = createNormalTails(alpha, numTails, 0, stdev, 6, 0.1)
+function updateNormChart(mean ,stdev, alpha, numTails) {
+    var newCurve = createGausDataset(mean, stdev, 6, 0.5)
+    var newTails = createNormalTails(alpha, numTails, mean, stdev, 6, 0.1)
 
     normDistChart.data.datasets[0].data = newCurve
     normDistChart.data.datasets[1].data = newTails[0]
@@ -153,23 +153,27 @@ function updateNormChart(stdev, alpha, numTails) {
 function changeNormSettings() {
     var sd = parseFloat(document.getElementById('normSDRange').value)
     var alpha = parseFloat(document.getElementById('normAlphaRange').value)
+    var mean = 0
 
     if (document.getElementById('normOneTail').checked) {
-        updateNormChart(sd, alpha, 1)
+        updateNormChart(mean, sd, alpha, 1)
 
-        var x = jStat.normal.inv(alpha, 0, sd).toFixed(2)
+        var x = jStat.normal.inv(alpha, mean, sd).toFixed(2)
+        var z = ((x-mean)/sd).toFixed(2)
 
-        document.getElementById('normXDisplay').innerHTML = 'Critical Value: ' + x.toString()
+        document.getElementById('normXDisplay').innerHTML = 'Critical Z Value: ' + z
         document.getElementById('normXLeftDisplay').innerHTML = ''
         document.getElementById('normXRightDisplay').innerHTML = ''
     } else if (document.getElementById('normTwoTail').checked) {
-        updateNormChart(sd, alpha, 2)
+        updateNormChart(mean, sd, alpha, 2)
 
-        var xLeft = jStat.normal.inv(alpha / 2, 0, sd).toFixed(2)
-        var xRight = jStat.normal.inv(1 - alpha / 2, 0, sd).toFixed(2)
+        var xLeft = jStat.normal.inv(alpha / 2, mean, sd).toFixed(2)
+        var zLeft = ((xLeft-mean)/sd).toFixed(2)
+        var xRight = jStat.normal.inv(1 - alpha / 2, mean, sd).toFixed(2)
+        var zRight = ((xRight-mean)/sd).toFixed(2)
 
-        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left Value: ' + xLeft.toString()
-        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right Value: ' + xRight.toString()
+        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left Z Value: ' + zLeft
+        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right Z Value: ' + zRight
         document.getElementById('normXDisplay').innerHTML = ''
     }
 
