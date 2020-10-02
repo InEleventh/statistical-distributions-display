@@ -139,7 +139,7 @@ function createNormalTails(alpha, numTails, mean, stdev, numdev, inc) {
 }
 
 //updateNormChart: changes the curve and or tails of the normal curve
-function updateNormChart(mean ,stdev, alpha, numTails) {
+function updateNormChart(mean, stdev, alpha, numTails) {
     var newCurve = createGausDataset(mean, stdev, 6, 0.5)
     var newTails = createNormalTails(alpha, numTails, mean, stdev, 6, 0.1)
 
@@ -159,7 +159,7 @@ function changeNormSettings() {
         updateNormChart(mean, sd, alpha, 1)
 
         var x = jStat.normal.inv(alpha, mean, sd).toFixed(2)
-        var z = ((x-mean)/sd).toFixed(2)
+        var z = ((x - mean) / sd).toFixed(2)
 
         document.getElementById('normXDisplay').innerHTML = 'Critical z Value: ' + z
         document.getElementById('normXLeftDisplay').innerHTML = ''
@@ -168,9 +168,9 @@ function changeNormSettings() {
         updateNormChart(mean, sd, alpha, 2)
 
         var xLeft = jStat.normal.inv(alpha / 2, mean, sd).toFixed(2)
-        var zLeft = ((xLeft-mean)/sd).toFixed(2)
+        var zLeft = ((xLeft - mean) / sd).toFixed(2)
         var xRight = jStat.normal.inv(1 - alpha / 2, mean, sd).toFixed(2)
-        var zRight = ((xRight-mean)/sd).toFixed(2)
+        var zRight = ((xRight - mean) / sd).toFixed(2)
 
         document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left z Value: ' + zLeft
         document.getElementById('normXRightDisplay').innerHTML = 'Critical Right z Value: ' + zRight
