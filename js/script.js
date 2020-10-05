@@ -153,7 +153,7 @@ function updateNormChart(mean, stdev, alpha, numTails) {
 function changeNormSettings() {
     var sd = parseFloat(document.getElementById('normSDRange').value)
     var alpha = parseFloat(document.getElementById('normAlphaRange').value)
-    var mean = 0
+    var mean = parseFloat(document.getElementById('normMeanRange').value)
 
     if (document.getElementById('normOneTail').checked) {
         updateNormChart(mean, sd, alpha, 1)
@@ -161,7 +161,11 @@ function changeNormSettings() {
         var x = jStat.normal.inv(alpha, mean, sd).toFixed(2)
         var z = ((x - mean) / sd).toFixed(2)
 
-        document.getElementById('normXDisplay').innerHTML = 'Critical z Value: ' + z
+        document.getElementById('normZDisplay').innerHTML = 'Critical z Value: ' + z
+        document.getElementById('normZLeftDisplay').innerHTML = ''
+        document.getElementById('normZRightDisplay').innerHTML = ''
+
+        document.getElementById('normXDisplay').innerHTML = 'Critical x Value: ' + x
         document.getElementById('normXLeftDisplay').innerHTML = ''
         document.getElementById('normXRightDisplay').innerHTML = ''
     } else if (document.getElementById('normTwoTail').checked) {
@@ -172,14 +176,123 @@ function changeNormSettings() {
         var xRight = jStat.normal.inv(1 - alpha / 2, mean, sd).toFixed(2)
         var zRight = ((xRight - mean) / sd).toFixed(2)
 
-        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left z Value: ' + zLeft
-        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right z Value: ' + zRight
+        document.getElementById('normZLeftDisplay').innerHTML = 'Critical Left z Value: ' + zLeft
+        document.getElementById('normZRightDisplay').innerHTML = 'Critical Right z Value: ' + zRight
+        document.getElementById('normZDisplay').innerHTML = ''
+
+        document.getElementById('normXLeftDisplay').innerHTML = 'Critical Left x Value: ' + xLeft
+        document.getElementById('normXRightDisplay').innerHTML = 'Critical Right x Value: ' + xRight
         document.getElementById('normXDisplay').innerHTML = ''
     }
 
     document.getElementById('normSDDisplay').innerHTML = sd
     document.getElementById('normAlphaDisplay').innerHTML = alpha
+    document.getElementById('normMeanDisplay').innerHTML = mean
 }
+
+
+//functions for normal proportion
+//createNormalChart: creates a normal distribution chart in a specified canvas
+function createNormPropChart(canvas) {
+    normDistCanvas = document.getElementById(canvas).getContext('2d')
+    normDistChart = new Chart(normDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createGausDataset(0, 1, 3, 0.5)
+                },
+                {
+                    label: 'left',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+                {
+                    label: 'right',
+                    pointRadius: 0,
+                    borderWidth: 5,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'right', 'left']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        min: 0,
+                        max: 1,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 10,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
+//updateNormChart: changes the curve and or tails of the normal curve
+function updateNormPropChart(mean, stdev) {
+    var newCurve = createGausDataset(mean, stdev, 3, 0.01)
+
+    normDistChart.data.datasets[0].data = newCurve
+    normDistChart.update()
+}
+
+//changeNormPropSettings: retives settings changes from normal sliders and radios
+function changeNormPropSettings() {
+    var p = parseFloat(document.getElementById('normPRange').value)
+    var n = parseFloat(document.getElementById('normNRange').value)
+    var sd = Math.sqrt((p * (1 - p)) / n)
+
+    updateNormPropChart(p, sd)
+
+    document.getElementById('normpropSDDisplay').innerHTML = 'SD = &radic;' + "(" + p.toFixed(2) + "*" + (1 - p).toFixed(2) + ")" + "/" + n + "=" + sd.toFixed(2)
+    document.getElementById('normpropMeanDisplay').innerHTML = "Mean: " + p.toFixed(2)
+
+    document.getElementById('normPDisplay').innerHTML = p
+    document.getElementById('normNDisplay').innerHTML = n
+}
+
 
 //functions for t
 //createTChart: creates a t distribution chart in a specified canvas
@@ -338,6 +451,7 @@ function changeTSettings() {
     document.getElementById('tAlphaDisplay').innerHTML = alpha
 }
 
+
 //functions for f
 //createFChart: creates a f distribution chart in a specified canvas
 function createFChart(canvas) {
@@ -461,6 +575,7 @@ function changeFSettings() {
     document.getElementById('fXDisplay').innerHTML = 'Critical f Value: ' + x.toString()
 }
 
+
 //functions for chi-square
 //createChiChart: creates a chi-square distribution chart in a specified canvas
 function createChiChart(canvas) {
@@ -581,6 +696,7 @@ function changeChiSettings() {
     document.getElementById('chiAlphaDisplay').innerHTML = alpha
     document.getElementById('chiXDisplay').innerHTML = 'Critical Χ<sup>2</sup> Value: ' + x.toString()
 }
+
 
 //functions for gamma
 //createGammaChart: creates a gamma distribution chart in a specified canvas
@@ -705,6 +821,7 @@ function changeGammaSettings() {
     document.getElementById('gammaXDisplay').innerHTML = 'Critical Γ Value: ' + x.toString()
 }
 
+
 //functions for beta
 //createBetaChart: creates a beta distribution chart in a specified canvas
 function createBetaChart(canvas) {
@@ -827,6 +944,7 @@ function changeBetaSettings() {
     document.getElementById('betaAlphaDisplay').innerHTML = alpha
     document.getElementById('betaXDisplay').innerHTML = 'Critical Β Value: ' + x.toString()
 }
+
 
 //functions for log-normal
 //createLognormChart: creates a lognormal distribution chart in a specified canvas
@@ -951,6 +1069,7 @@ function changeLognormSettings() {
     document.getElementById('lognormXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
+
 //functions for exponential 
 //createExpoChart: creates a exponential distribution chart in a specified canvas
 function createExpoChart(canvas) {
@@ -1059,7 +1178,7 @@ function updateExpoChart(lambda, alpha) {
     expoDistChart.update()
 }
 
-//changeChiSettings: retives settings changes from chi-square sliders
+//changeExpoSettings: retives settings changes from exponential sliders
 function changeExpoSettings() {
     var lambda = parseFloat(document.getElementById('expoLambdaRange').value)
     var alpha = parseFloat(document.getElementById('expoAlphaRange').value)
@@ -1072,8 +1191,213 @@ function changeExpoSettings() {
     document.getElementById('expoXDisplay').innerHTML = 'Critical Value: ' + x.toString()
 }
 
+
+//functions for binomial
+//createExpoChart: creates a binomial distribution chart in a specified canvas
+function createBinomialChart(canvas) {
+    binomialDistCanvas = document.getElementById(canvas).getContext('2d')
+    binomialDistChart = new Chart(binomialDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                    data: createBinomialDataset(1, 1, 60, 0.1)
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 4,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        //suggestedMax: 5,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
+//createExpoDataset: creates a exponential binomial dataset
+function createBinomialDataset(n, p, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i = i + inc) {
+        var y = jStat.binomial.pdf(i, n, p)
+        dataset.push({ x: i, y: y })
+    }
+
+    return dataset
+}
+
+//updateBinomialChart: changes the curve and/or tails of the binomial curve
+function updateBinomialChart(n, p) {
+    var newBi = createBinomialDataset(n, p, 40, 0.5)
+
+    binomialDistChart.data.datasets[0].data = newBi
+    binomialDistChart.update()
+}
+
+//changeBinomialSettings: retives settings changes from binomialsliders
+function changeBinomialSettings() {
+    var n = parseFloat(document.getElementById('binomialNRange').value)
+    var p = parseFloat(document.getElementById('binomialPRange').value)
+
+    updateBinomialChart(n, p)
+
+    document.getElementById('binomialNDisplay').innerHTML = n
+    document.getElementById('binomialPDisplay').innerHTML = p
+}
+
+
+//functions for createPoissonChart
+//createPoissonChart: creates a poisson distribution chart in a specified canvas
+function createPoissonChart(canvas) {
+    poissonDistCanvas = document.getElementById(canvas).getContext('2d')
+    poissonDistChart = new Chart(poissonDistCanvas, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'Curve 1',
+                    pointRadius: 0,
+                    fill: false,
+                    borderColor: '#4d4a4a',
+                },
+                {
+                    label: 'tail',
+                    pointRadius: 0,
+                    borderWidth: 1,
+                    borderColor: '#C64C80',
+                    backgroundColor: '#C64C80',
+                },
+            ],
+        },
+        options: {
+            title: {
+                text: 'Alpha, Beta and Power',
+                display: false,
+            },
+            legend: {
+                position: 'bottom',
+                labels: {
+                    filter: function (item, chart) {
+                        var removeList = ['Curve 1', 'tail']
+                        if (removeList.includes(item.text)) {
+                            return false
+                        }
+                        return true
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    display: true,
+                    ticks: {
+                        display: true,
+                        max: 19,
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        display: true,
+                        //suggestedMax: 5,
+                    }
+                }],
+            },
+            elements: {
+                line: {
+                    borderWidth: 5.5,
+                }
+            },
+            animation: {
+                duration: 200
+            },
+        }
+    })
+}
+
+//createPoissonDataset: creates a poisson binomial dataset
+function createPoissonDataset(lambda, endPoint, inc) {
+    var dataset = []
+
+    for (var i = 0; i < endPoint + inc; i = i + inc) {
+        var y = jStat.poisson.pdf(i, lambda)
+        dataset.push({ x: i, y: y })
+    }
+
+    return dataset
+}
+
+//updateBinomialChart: changes the curve and/or tails of the binomial curve
+function updatePoissonChart(lambda) {
+    var newBi = createPoissonDataset(lambda, 60, 1)
+
+    poissonDistChart.data.datasets[0].data = newBi
+    poissonDistChart.update()
+}
+
+//changeBinomialSettings: retives settings changes from binomialsliders
+function changePoissonSettings() {
+    var l = parseFloat(document.getElementById('poissonLambdaRange').value)
+
+    updatePoissonChart(l)
+
+    document.getElementById('poissonLambdaDisplay').innerHTML = l
+}
+
+
 //normal options controls
 function setupNormControls() {
+    document.getElementById('normMeanRange').oninput = changeNormSettings
     document.getElementById('normSDRange').oninput = changeNormSettings
     document.getElementById('normAlphaRange').oninput = changeNormSettings
     document.getElementById('normOneTail').onclick = changeNormSettings
@@ -1126,4 +1450,21 @@ function setupLognormControls() {
 function setupExpoControls() {
     document.getElementById('expoLambdaRange').oninput = changeExpoSettings
     document.getElementById('expoAlphaRange').oninput = changeExpoSettings
+}
+
+//Binomial options controls
+function setupBinomialControls() {
+    document.getElementById('binomialNRange').oninput = changeBinomialSettings
+    document.getElementById('binomialPRange').oninput = changeBinomialSettings
+}
+
+//Poisson options controls
+function setupPoissonControls() {
+    document.getElementById('poissonLambdaRange').oninput = changePoissonSettings
+}
+
+//Normal proportion options controls
+function setupNormPropControls() {
+    document.getElementById('normPRange').oninput = changeNormPropSettings
+    document.getElementById('normNRange').oninput = changeNormPropSettings
 }
