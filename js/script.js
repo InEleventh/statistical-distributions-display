@@ -1205,7 +1205,6 @@ function createBinomialChart(canvas) {
                     pointRadius: 0,
                     fill: false,
                     borderColor: '#4d4a4a',
-                    data: createBinomialDataset(1, 1, 60, 0.1)
                 },
                 {
                     label: 'tail',
@@ -1240,14 +1239,14 @@ function createBinomialChart(canvas) {
                     display: true,
                     ticks: {
                         display: true,
-                        max: 4,
+                        max: 20,
                     }
                 }],
                 yAxes: [{
                     display: true,
                     ticks: {
                         display: true,
-                        //suggestedMax: 5,
+                        suggestedMax: 1,
                     }
                 }],
             },
@@ -1277,7 +1276,7 @@ function createBinomialDataset(n, p, endPoint, inc) {
 
 //updateBinomialChart: changes the curve and/or tails of the binomial curve
 function updateBinomialChart(n, p) {
-    var newBi = createBinomialDataset(n, p, 40, 0.5)
+    var newBi = createBinomialDataset(n, p, 1000, 0.5)
 
     binomialDistChart.data.datasets[0].data = newBi
     binomialDistChart.update()
@@ -1342,14 +1341,14 @@ function createPoissonChart(canvas) {
                     display: true,
                     ticks: {
                         display: true,
-                        max: 19,
+                        max: 20,
                     }
                 }],
                 yAxes: [{
                     display: true,
                     ticks: {
                         display: true,
-                        //suggestedMax: 5,
+                        suggestedMax: 0.4,
                     }
                 }],
             },
