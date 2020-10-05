@@ -25,17 +25,17 @@
 
 <body>
     <!--nav bar-->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="../index.html">Stats Distributions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="normal.html" class="nav-link">Normal</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="normal-prop.html" class="nav-link">Normal Proportion</a>
                 </li>
                 <li class="nav-item">
@@ -59,6 +59,12 @@
                 <li class="nav-item">
                     <a href="exponential.html" class="nav-link">Exponential</a>
                 </li>
+                <li class="nav-item">
+                    <a href="binomial.html" class="nav-link">Binomial</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="poisson.html" class="nav-link">Poisson</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -77,8 +83,16 @@
         </div>
         <div class="row text-center">
             <div class="col">
-                <input type="range" class="custom-range" id="poissonLambdaRange" min="1" max="40" value="20">
+                <input type="range" class="custom-range" id="poissonLambdaRange" min="1" max="20" value="10">
                 <p>λ: <span id="poissonLambdaDisplay"></span></p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col">
+                <dl>
+                    <dt class="font-weight-bold">λ</dt>
+                    <dd>The mean and variance.</dd>
+                </dl>
             </div>
         </div>
     </div>

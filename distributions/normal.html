@@ -25,7 +25,7 @@
 
 <body>
     <!--nav bar-->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="../index.html">Stats Distributions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
@@ -34,6 +34,9 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
                     <a href="normal.html" class="nav-link">Normal</a>
+                </li>
+                <li class="nav-item">
+                    <a href="normal-prop.html" class="nav-link">Normal Proportion</a>
                 </li>
                 <li class="nav-item">
                     <a href="t.html" class="nav-link">T</a>
@@ -56,6 +59,12 @@
                 <li class="nav-item">
                     <a href="exponential.html" class="nav-link">Exponential</a>
                 </li>
+                <li class="nav-item">
+                    <a href="binomial.html" class="nav-link">Binomial</a>
+                </li>
+                <li class="nav-item">
+                    <a href="poisson.html" class="nav-link">Poisson</a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -74,6 +83,17 @@
         </div>
         <div class="row text-center">
             <div class="col">
+                <h5 id="normZLeftDisplay"></h5>
+            </div>
+            <div class="col">
+                <h5 id="normZDisplay"></h5>
+            </div>
+            <div class="col">
+                <h5 id="normZRightDisplay"></h5>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
                 <h5 id="normXLeftDisplay"></h5>
             </div>
             <div class="col">
@@ -85,6 +105,8 @@
         </div>
         <div class="row text-center">
             <div class="col">
+                <input type="range" class="custom-range" id="normMeanRange" min="-2" max="2" step="1" value="0">
+                <p>Mean: <span id="normMeanDisplay"></span></p>
                 <input type="range" class="custom-range" id="normSDRange" min="1" max="2" step="0.1" value="1">
                 <p>Standard Deviation: <span id="normSDDisplay"></span></p>
             </div>
@@ -107,6 +129,8 @@
         <div class="row mt-5">
             <div class="col">
                 <dl>
+                    <dt class="font-weight-bold">Mean</dt>
+                    <dd>The mean represents centre of the distribution. Changing the mean will shift the location of the distribution centre.</dd>
                     <dt class="font-weight-bold">Standard Deviation</dt>
                     <dd>The standard deviation is a measure of dispersion. Increasing the standard deviation will
                         stretch distribution and decreasing it will shrink the distribution.</dd>
