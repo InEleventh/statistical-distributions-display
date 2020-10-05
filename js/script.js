@@ -959,7 +959,6 @@ function createLognormChart(canvas) {
                     pointRadius: 0,
                     fill: false,
                     borderColor: '#4d4a4a',
-                    data: createLognormDataset(1, 1, 30, 0.1)
                 },
                 {
                     label: 'tail',
@@ -994,7 +993,7 @@ function createLognormChart(canvas) {
                     display: true,
                     ticks: {
                         display: true,
-                        max: 70,
+                        max: 100,
                     }
                 }],
                 yAxes: [{
@@ -1046,8 +1045,8 @@ function createLognormTail(alpha, mu, sigma, endPoint, inc) {
 
 //updateLognormChart: changes the curve and/or tails of the log-normal curve
 function updateLognormChart(mu, sigma, alpha) {
-    var newLN = createLognormDataset(mu, sigma, 80, 0.1)
-    var newTail = createLognormTail(alpha, mu, sigma, 80, 0.1)
+    var newLN = createLognormDataset(mu, sigma, 110, 0.1)
+    var newTail = createLognormTail(alpha, mu, sigma, 110, 0.1)
 
     lognormDistChart.data.datasets[0].data = newLN
     lognormDistChart.data.datasets[1].data = newTail
@@ -1118,7 +1117,7 @@ function createExpoChart(canvas) {
                     display: true,
                     ticks: {
                         display: true,
-                        max: 4,
+                        max: 5,
                     }
                 }],
                 yAxes: [{
