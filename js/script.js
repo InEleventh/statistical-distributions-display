@@ -254,7 +254,7 @@ function createNormPropChart(canvas) {
                     display: true,
                     ticks: {
                         display: true,
-                        max: 10,
+                        suggestedMax: 45,
                     }
                 }],
             },
