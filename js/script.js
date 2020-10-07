@@ -153,7 +153,8 @@ function updateNormChart(mean, stdev, alpha, numTails) {
 function changeNormSettings() {
     var sd = parseFloat(document.getElementById('normSDRange').value)
     var alpha = parseFloat(document.getElementById('normAlphaRange').value)
-    var mean = parseFloat(document.getElementById('normMeanRange').value)
+    //var mean = parseFloat(document.getElementById('normMeanRange').value)
+    var mean = 0
 
     if (document.getElementById('normOneTail').checked) {
         updateNormChart(mean, sd, alpha, 1)
@@ -187,7 +188,7 @@ function changeNormSettings() {
 
     document.getElementById('normSDDisplay').innerHTML = sd
     document.getElementById('normAlphaDisplay').innerHTML = alpha
-    document.getElementById('normMeanDisplay').innerHTML = mean
+    //document.getElementById('normMeanDisplay').innerHTML = mean
 }
 
 
@@ -1395,7 +1396,7 @@ function changePoissonSettings() {
 
 //normal options controls
 function setupNormControls() {
-    document.getElementById('normMeanRange').oninput = changeNormSettings
+    //document.getElementById('normMeanRange').oninput = changeNormSettings
     document.getElementById('normSDRange').oninput = changeNormSettings
     document.getElementById('normAlphaRange').oninput = changeNormSettings
     document.getElementById('normOneTail').onclick = changeNormSettings
